@@ -1,3213 +1,1261 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zestify — Order Fresh Food</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
-        rel="stylesheet" />
-    <style>
-        /* ─── CSS CUSTOM PROPERTIES ─── */
-        :root {
-            --bg: #ffffff;
-            --bg-2: #f8f6f2;
-            --bg-3: #f0ede6;
-            --surface: #ffffff;
-            --surface-2: #f5f3ef;
-            --border: #e8e3da;
-            --text: #1a1612;
-            --text-2: #5a524a;
-            --text-3: #8a7d72;
-            --accent: #e85d2f;
-            --accent-hover: #d14a1e;
-            --accent-light: #fdf0eb;
-            --green: #2d9a5f;
-            --green-light: #e8f7ef;
-            --yellow: #f5a623;
-            --shadow-sm: 0 1px 4px rgba(0, 0, 0, .06);
-            --shadow: 0 4px 16px rgba(0, 0, 0, .08);
-            --shadow-lg: 0 12px 40px rgba(0, 0, 0, .12);
-            --radius: 16px;
-            --radius-sm: 10px;
-            --nav-h: 68px;
-            --transition: .2s cubic-bezier(.4, 0, .2, 1);
-        }
-
-        [data-theme="dark"] {
-            --bg: #0f0d0b;
-            --bg-2: #1a1714;
-            --bg-3: #231f1b;
-            --surface: #1e1b18;
-            --surface-2: #2a2520;
-            --border: #332e28;
-            --text: #f5f0ea;
-            --text-2: #b5a99a;
-            --text-3: #7a6e63;
-            --accent: #ff6b3d;
-            --accent-hover: #e85d2f;
-            --accent-light: #2a1a12;
-            --green: #3db870;
-            --green-light: #0f2a1a;
-            --shadow-sm: 0 1px 4px rgba(0, 0, 0, .3);
-            --shadow: 0 4px 16px rgba(0, 0, 0, .4);
-            --shadow-lg: 0 12px 40px rgba(0, 0, 0, .6);
-        }
-
-        /* ─── RESET & BASE ─── */
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            transition: background var(--transition), color var(--transition);
-            overflow-x: hidden;
-        }
-
-        img {
-            display: block;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        button {
-            cursor: pointer;
-            border: none;
-            background: none;
-            font: inherit;
-        }
-
-        input {
-            font: inherit;
-        }
-
-        /* ─── TYPOGRAPHY ─── */
-        .display {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-weight: 700;
-            line-height: 1.1;
-        }
-
-        .display em {
-            font-style: italic;
-            color: var(--accent);
-        }
-
-        /* ─── NAV ─── */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            height: var(--nav-h);
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            padding: 0 clamp(16px, 4vw, 48px);
-            gap: 24px;
-            box-shadow: var(--shadow-sm);
-            transition: background var(--transition), border-color var(--transition);
-        }
-
-        .nav-logo {
-            font-weight: 800;
-            font-size: 1.35rem;
-            background: linear-gradient(135deg, var(--accent), var(--yellow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            flex-shrink: 0;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 4px;
-            margin-left: auto;
-        }
-
-        .nav-links a {
-            padding: 7px 14px;
-            border-radius: 8px;
-            font-size: .9rem;
-            font-weight: 500;
-            color: var(--text-2);
-            transition: color var(--transition), background var(--transition);
-        }
-
-        .nav-links a:hover {
-            background: var(--bg-2);
-            color: var(--text);
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-theme {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: var(--bg-2);
-            border: 1px solid var(--border);
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background var(--transition);
-        }
-
-        .btn-theme:hover {
-            background: var(--bg-3);
-        }
-
-        .btn-cart {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--accent);
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: .9rem;
-            transition: background var(--transition), transform .1s;
-        }
-
-        .btn-cart:hover {
-            background: var(--accent-hover);
-        }
-
-        .btn-cart:active {
-            transform: scale(.97);
-        }
-
-        .cart-badge {
-            background: #fff;
-            color: var(--accent);
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            font-size: .75rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-user {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: var(--bg-3);
-            border: 1px solid var(--border);
-            font-size: .95rem;
-            font-weight: 700;
-            color: var(--text-2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background var(--transition);
-        }
-
-        .btn-user:hover {
-            background: var(--accent-light);
-            color: var(--accent);
-        }
-
-        .hamburger {
-            display: none;
-            width: 38px;
-            height: 38px;
-            border-radius: 8px;
-            background: var(--bg-2);
-            flex-direction: column;
-            gap: 5px;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hamburger span {
-            display: block;
-            width: 18px;
-            height: 2px;
-            background: var(--text);
-            border-radius: 2px;
-            transition: var(--transition);
-        }
-
-        /* Mobile nav drawer */
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: var(--nav-h);
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--surface);
-            z-index: 99;
-            flex-direction: column;
-            padding: 24px;
-            gap: 8px;
-            border-top: 1px solid var(--border);
-        }
-
-        .mobile-menu.open {
-            display: flex;
-        }
-
-        .mobile-menu a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 16px;
-            border-radius: 12px;
-            font-weight: 500;
-            font-size: 1.05rem;
-            color: var(--text);
-            transition: background var(--transition);
-        }
-
-        .mobile-menu a:hover {
-            background: var(--bg-2);
-        }
-
-        .mobile-menu .divider {
-            height: 1px;
-            background: var(--border);
-            margin: 8px 0;
-        }
-
-        /* ─── HERO ─── */
-        .hero {
-            min-height: 100svh;
-            padding-top: var(--nav-h);
-            display: grid;
-            place-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            background-image: url('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=1600&q=80');
-            background-size: cover;
-            background-position: center;
-            filter: brightness(.45);
-            transition: filter var(--transition);
-        }
-
-        [data-theme="dark"] .hero-bg {
-            filter: brightness(.3);
-        }
-
-        .hero-content {
-            position: relative;
-            text-align: center;
-            padding: clamp(32px, 6vw, 80px) clamp(16px, 5vw, 64px);
-            max-width: 760px;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, .12);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, .2);
-            border-radius: 100px;
-            color: #fff;
-            font-size: .85rem;
-            font-weight: 500;
-            padding: 6px 16px;
-            margin-bottom: 24px;
-        }
-
-        .hero-badge span {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--green);
-            display: inline-block;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: .4;
-            }
-        }
-
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.4rem, 6vw, 4.5rem);
-            color: #fff;
-            line-height: 1.1;
-            margin-bottom: 20px;
-        }
-
-        .hero h1 em {
-            font-style: italic;
-            color: var(--accent);
-        }
-
-        .hero p {
-            color: rgba(255, 255, 255, .8);
-            font-size: clamp(.95rem, 2vw, 1.15rem);
-            margin-bottom: 36px;
-        }
-
-        .hero-btns {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: #fff;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: background var(--transition), transform .1s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary:hover {
-            background: var(--accent-hover);
-        }
-
-        .btn-primary:active {
-            transform: scale(.97);
-        }
-
-        .btn-outline {
-            background: rgba(255, 255, 255, .12);
-            backdrop-filter: blur(8px);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .3);
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: background var(--transition);
-        }
-
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, .2);
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: clamp(20px, 4vw, 48px);
-            justify-content: center;
-            margin-top: 48px;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            color: #fff;
-            text-align: center;
-        }
-
-        .stat-num {
-            font-size: clamp(1.5rem, 3vw, 2rem);
-            font-weight: 800;
-            display: block;
-        }
-
-        .stat-label {
-            font-size: .8rem;
-            color: rgba(255, 255, 255, .65);
-            text-transform: uppercase;
-            letter-spacing: .05em;
-        }
-
-        /* Scroll hint */
-        .scroll-hint {
-            position: absolute;
-            bottom: 28px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, .5);
-            font-size: .8rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            animation: bob 2s ease-in-out infinite;
-        }
-
-        @keyframes bob {
-
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(0);
-            }
-
-            50% {
-                transform: translateX(-50%) translateY(6px);
-            }
-        }
-
-        /* ─── SECTION BASE ─── */
-        .section {
-            padding: clamp(48px, 8vw, 96px) clamp(16px, 5vw, 64px);
-        }
-
-        .section-header {
-            margin-bottom: 40px;
-        }
-
-        .eyebrow {
-            font-size: .8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .1em;
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-
-        .section-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            line-height: 1.2;
-        }
-
-        .section-header p {
-            color: var(--text-2);
-            margin-top: 10px;
-            max-width: 520px;
-        }
-
-        /* ─── CATEGORIES ─── */
-        .categories-section {
-            background: var(--bg-2);
-        }
-
-        .categories-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .categories-scroll {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-            scrollbar-width: none;
-        }
-
-        .categories-scroll::-webkit-scrollbar {
-            display: none;
-        }
-
-        .cat-chip {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border-radius: 100px;
-            border: 1.5px solid var(--border);
-            background: var(--surface);
-            font-size: .9rem;
-            font-weight: 500;
-            color: var(--text-2);
-            cursor: pointer;
-            transition: all var(--transition);
-        }
-
-        .cat-chip:hover,
-        .cat-chip.active {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
-
-        .cat-chip span {
-            font-size: 1.1rem;
-        }
-
-        /* ─── MENU GRID ─── */
-        .menu-section {
-            background: var(--bg);
-        }
-
-        .menu-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 36px;
-        }
-
-        .see-all {
-            color: var(--accent);
-            font-weight: 600;
-            font-size: .9rem;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .see-all:hover {
-            text-decoration: underline;
-        }
-
-        .food-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
-            gap: 20px;
-        }
-
-        .food-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: transform .2s, box-shadow .2s;
-            cursor: pointer;
-        }
-
-        .food-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow);
-        }
-
-        .food-img-wrap {
-            position: relative;
-            height: 180px;
-            overflow: hidden;
-        }
-
-        .food-img-wrap img {
-            height: 100%;
-            transition: transform .4s;
-        }
-
-        .food-card:hover .food-img-wrap img {
-            transform: scale(1.06);
-        }
-
-        .food-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: var(--accent);
-            color: #fff;
-            font-size: .7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .06em;
-            padding: 3px 10px;
-            border-radius: 100px;
-        }
-
-        .food-badge.veg {
-            background: var(--green);
-        }
-
-        .food-badge.popular {
-            background: var(--yellow);
-            color: #1a1612;
-        }
-
-        .food-card-body {
-            padding: 16px;
-        }
-
-        .food-card-body h3 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .food-meta {
-            font-size: .8rem;
-            color: var(--text-3);
-            margin-bottom: 12px;
-        }
-
-        .food-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .food-price {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--accent);
-        }
-
-        .food-rating {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: .8rem;
-            color: var(--text-2);
-            font-weight: 500;
-        }
-
-        .btn-add {
-            width: 34px;
-            height: 34px;
-            border-radius: 8px;
-            background: var(--accent);
-            color: #fff;
-            font-size: 1.2rem;
-            font-weight: 400;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background var(--transition), transform .1s;
-        }
-
-        .btn-add:hover {
-            background: var(--accent-hover);
-        }
-
-        .btn-add:active {
-            transform: scale(.9);
-        }
-
-        /* Product modal */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .6);
-            z-index: 200;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-
-        .modal-overlay.open {
-            display: flex;
-        }
-
-        .modal {
-            background: var(--surface);
-            border-radius: var(--radius);
-            width: 100%;
-            max-width: 520px;
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            animation: slideUp .25s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-img {
-            height: 240px;
-        }
-
-        .modal-body {
-            padding: 24px;
-        }
-
-        .modal-body h3 {
-            font-size: 1.4rem;
-            font-weight: 800;
-            margin-bottom: 6px;
-        }
-
-        .modal-body p {
-            color: var(--text-2);
-            font-size: .95rem;
-            margin-bottom: 20px;
-        }
-
-        .modal-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .qty-ctrl {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .qty-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            border: 1.5px solid var(--border);
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text);
-            background: var(--bg-2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background var(--transition);
-        }
-
-        .qty-btn:hover {
-            background: var(--bg-3);
-        }
-
-        .qty-num {
-            font-size: 1.1rem;
-            font-weight: 700;
-            min-width: 24px;
-            text-align: center;
-        }
-
-        .btn-add-order {
-            background: var(--accent);
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-weight: 700;
-            transition: background var(--transition);
-        }
-
-        .btn-add-order:hover {
-            background: var(--accent-hover);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, .4);
-            color: #fff;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* ─── CART SIDEBAR ─── */
-        .cart-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .5);
-            z-index: 150;
-            display: none;
-        }
-
-        .cart-overlay.open {
-            display: block;
-        }
-
-        .cart-panel {
-            position: fixed;
-            top: 0;
-            right: -420px;
-            bottom: 0;
-            width: min(420px, 100vw);
-            background: var(--surface);
-            z-index: 151;
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            flex-direction: column;
-            transition: right .3s cubic-bezier(.4, 0, .2, 1);
-        }
-
-        .cart-panel.open {
-            right: 0;
-        }
-
-        .cart-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .cart-head h3 {
-            font-size: 1.15rem;
-            font-weight: 800;
-        }
-
-        .cart-close {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: var(--bg-2);
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .cart-items {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .cart-empty {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            gap: 16px;
-            color: var(--text-3);
-        }
-
-        .cart-empty .icon {
-            font-size: 3rem;
-        }
-
-        .cart-item {
-            display: flex;
-            gap: 12px;
-            background: var(--bg-2);
-            border-radius: 12px;
-            padding: 12px;
-            border: 1px solid var(--border);
-        }
-
-        .cart-item-img {
-            width: 64px;
-            height: 64px;
-            border-radius: 8px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
-        .cart-item-info {
-            flex: 1;
-        }
-
-        .cart-item-info h4 {
-            font-size: .95rem;
-            font-weight: 700;
-        }
-
-        .cart-item-info p {
-            font-size: .85rem;
-            color: var(--text-2);
-        }
-
-        .cart-item-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 6px;
-        }
-
-        .cart-qty-btn {
-            width: 26px;
-            height: 26px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            font-size: .9rem;
-            font-weight: 700;
-            background: var(--surface);
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .cart-qty-num {
-            font-size: .9rem;
-            font-weight: 700;
-        }
-
-        .cart-item-price {
-            font-weight: 700;
-            color: var(--accent);
-            font-size: .95rem;
-        }
-
-        .cart-footer {
-            padding: 20px 24px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .coupon-row {
-            display: flex;
-            gap: 8px;
-        }
-
-        .coupon-input {
-            flex: 1;
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1.5px solid var(--border);
-            background: var(--bg-2);
-            color: var(--text);
-            font-size: .9rem;
-        }
-
-        .coupon-input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .btn-apply {
-            padding: 10px 16px;
-            border-radius: 8px;
-            background: var(--bg-3);
-            color: var(--text);
-            font-weight: 600;
-            font-size: .9rem;
-            border: 1.5px solid var(--border);
-        }
-
-        .cart-totals {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            font-size: .9rem;
-        }
-
-        .cart-row {
-            display: flex;
-            justify-content: space-between;
-            color: var(--text-2);
-        }
-
-        .cart-row.total {
-            font-weight: 800;
-            font-size: 1.05rem;
-            color: var(--text);
-            border-top: 1px solid var(--border);
-            padding-top: 8px;
-            margin-top: 4px;
-        }
-
-        .btn-checkout {
-            background: var(--accent);
-            color: #fff;
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: background var(--transition);
-        }
-
-        .btn-checkout:hover {
-            background: var(--accent-hover);
-        }
-
-        /* ─── AUTH MODALS — PREMIUM BLACK THEME ─── */
-        .auth-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 200;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            background: rgba(0, 0, 0, .85);
-            backdrop-filter: blur(6px);
-        }
-
-        .auth-overlay.open {
-            display: flex;
-        }
-
-        /* Card is always black regardless of site theme */
-        .auth-card {
-            background: #0a0a0a;
-            border: 1px solid #1f1f1f;
-            border-radius: 24px;
-            width: 100%;
-            max-width: 460px;
-            box-shadow: 0 32px 80px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .04);
-            overflow: hidden;
-            animation: slideUp .3s cubic-bezier(.16, 1, .3, 1);
-        }
-
-        /* Glowing top bar */
-        .auth-card::before {
-            content: '';
-            display: block;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), #f5a623, transparent);
-        }
-
-        .auth-header {
-            padding: 28px 32px 20px;
-            position: relative;
-            border-bottom: 1px solid #1a1a1a;
-        }
-
-        .auth-brand-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .auth-logo-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--accent), #f5a623);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-        }
-
-        .auth-logo-text {
-            font-weight: 800;
-            font-size: 1rem;
-            letter-spacing: -.02em;
-            background: linear-gradient(135deg, #fff 60%, #888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .auth-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.9rem;
-            color: #fff;
-            line-height: 1.15;
-            margin-bottom: 6px;
-        }
-
-        .auth-header h2 em {
-            font-style: italic;
-            color: var(--accent);
-        }
-
-        .auth-header p {
-            color: #555;
-            font-size: .88rem;
-        }
-
-        .auth-body {
-            padding: 24px 32px 28px;
-        }
-
-        /* Social buttons */
-        .social-btns {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-
-        .btn-social {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            padding: 11px 14px;
-            border-radius: 10px;
-            border: 1px solid #222;
-            background: #111;
-            color: #ccc;
-            font-weight: 600;
-            font-size: .88rem;
-            transition: border-color .2s, background .2s, color .2s;
-        }
-
-        .btn-social:hover {
-            background: #181818;
-            border-color: #333;
-            color: #fff;
-        }
-
-        .divider-or {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #333;
-            font-size: .78rem;
-            letter-spacing: .04em;
-            text-transform: uppercase;
-            margin-bottom: 18px;
-        }
-
-        .divider-or::before,
-        .divider-or::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #1e1e1e;
-        }
-
-        /* Form */
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-            margin-bottom: 14px;
-        }
-
-        .form-group label {
-            font-size: .8rem;
-            font-weight: 600;
-            color: #666;
-            letter-spacing: .04em;
-            text-transform: uppercase;
-        }
-
-        .form-input {
-            padding: 13px 15px;
-            border-radius: 10px;
-            border: 1px solid #1e1e1e;
-            background: #111;
-            color: #f0f0f0;
-            font-size: .95rem;
-            transition: border-color .2s, box-shadow .2s;
-        }
-
-        .form-input::placeholder {
-            color: #333;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(232, 93, 47, .15);
-        }
-
-        .form-input.error {
-            border-color: #c0392b;
-            box-shadow: 0 0 0 3px rgba(192, 57, 43, .15);
-        }
-
-        .form-error {
-            font-size: .78rem;
-            color: #e05c4b;
-            display: none;
-            padding-left: 2px;
-        }
-
-        .form-error.show {
-            display: block;
-        }
-
-        .auth-alert {
-            display: none;
-            background: #1a0f0a;
-            border: 1px solid #4a1f10;
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: .84rem;
-            color: #e06040;
-            margin-bottom: 14px;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .auth-alert.show {
-            display: flex;
-        }
-
-        .btn-submit {
-            width: 100%;
-            color: #fff;
-            background: linear-gradient(135deg, var(--accent) 0%, #d14a1e 100%);
-            padding: 14px;
-            border-radius: 11px;
-            font-weight: 700;
-            font-size: .97rem;
-            letter-spacing: .01em;
-            box-shadow: 0 4px 20px rgba(232, 93, 47, .35);
-            transition: opacity .2s, transform .1s, box-shadow .2s;
-            margin-top: 4px;
-        }
-
-        .btn-submit:hover {
-            opacity: .92;
-            box-shadow: 0 6px 28px rgba(232, 93, 47, .5);
-        }
-
-        .btn-submit:active {
-            transform: scale(.98);
-        }
-
-        .auth-switch {
-            text-align: center;
-            margin-top: 16px;
-            font-size: .86rem;
-            color: #444;
-        }
-
-        .auth-switch a {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .auth-switch a:hover {
-            text-decoration: underline;
-        }
-
-        .auth-close-btn {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            color: #666;
-            font-size: .9rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background .2s, color .2s;
-        }
-
-        .auth-close-btn:hover {
-            background: #242424;
-            color: #fff;
-        }
-
-        .auth-relative {
-            position: relative;
-        }
-
-        /* Password strength */
-        .pw-strength {
-            height: 3px;
-            border-radius: 2px;
-            background: #1e1e1e;
-            margin-top: 7px;
-            overflow: hidden;
-        }
-
-        .pw-strength-bar {
-            height: 100%;
-            border-radius: 2px;
-            transition: width .35s, background .35s;
-        }
-
-        .pw-hint {
-            font-size: .75rem;
-            color: #444;
-            margin-top: 4px;
-        }
-
-        /* Secure badge row */
-        .auth-secure {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            margin-top: 14px;
-            color: #333;
-            font-size: .75rem;
-        }
-
-        .auth-secure span {
-            color: #2d9a5f;
-        }
-
-        /* ─── PAYMENT MODAL ─── */
-        .pay-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 250;
-            background: rgba(0, 0, 0, .88);
-            backdrop-filter: blur(8px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-
-        .pay-overlay.open {
-            display: flex;
-        }
-
-        .pay-card {
-            background: #0a0a0a;
-            border: 1px solid #1f1f1f;
-            border-radius: 24px;
-            width: 100%;
-            max-width: 460px;
-            box-shadow: 0 32px 80px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .04);
-            overflow: hidden;
-            animation: slideUp .3s cubic-bezier(.16, 1, .3, 1);
-            position: relative;
-        }
-
-        .pay-card::before {
-            content: '';
-            display: block;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #2d9a5f, #34d870, transparent);
-        }
-
-        .pay-head {
-            padding: 24px 28px 18px;
-            border-bottom: 1px solid #181818;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .pay-head-left h3 {
-            color: #fff;
-            font-size: 1.3rem;
-            font-weight: 800;
-            margin-bottom: 3px;
-        }
-
-        .pay-head-left p {
-            color: #444;
-            font-size: .84rem;
-        }
-
-        .pay-close-btn {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            color: #666;
-            font-size: .9rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background .2s, color .2s;
-            flex-shrink: 0;
-        }
-
-        .pay-close-btn:hover {
-            background: #242424;
-            color: #fff;
-        }
-
-        .pay-order-summary {
-            margin: 0 28px 4px;
-            background: #0f0f0f;
-            border: 1px solid #1a1a1a;
-            border-radius: 12px;
-            padding: 14px 16px;
-            margin-top: 16px;
-        }
-
-        .pay-summary-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: .85rem;
-            color: #555;
-            padding: 3px 0;
-        }
-
-        .pay-summary-row.total-row {
-            color: #fff;
-            font-weight: 800;
-            font-size: 1rem;
-            border-top: 1px solid #1e1e1e;
-            padding-top: 10px;
-            margin-top: 6px;
-        }
-
-        .pay-body {
-            padding: 18px 28px 24px;
-        }
-
-        .pay-section-label {
-            font-size: .73rem;
-            font-weight: 700;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            color: #444;
-            margin-bottom: 12px;
-        }
-
-        .pay-methods {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .pay-method {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            background: #111;
-            border: 1.5px solid #1e1e1e;
-            border-radius: 13px;
-            padding: 15px 16px;
-            cursor: pointer;
-            transition: border-color .2s, background .2s;
-            position: relative;
-        }
-
-        .pay-method:hover {
-            background: #141414;
-            border-color: #2a2a2a;
-        }
-
-        .pay-method.selected {
-            border-color: var(--accent);
-            background: #140d08;
-        }
-
-        .pay-method-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            flex-shrink: 0;
-        }
-
-        .pay-method-icon.upi {
-            background: #1a0f2e;
-        }
-
-        .pay-method-icon.gpay {
-            background: #0a1628;
-        }
-
-        .pay-method-icon.cod {
-            background: #0a1a0f;
-        }
-
-        .pay-method-info {
-            flex: 1;
-        }
-
-        .pay-method-info h4 {
-            color: #e8e8e8;
-            font-size: .93rem;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        .pay-method-info p {
-            color: #444;
-            font-size: .78rem;
-        }
-
-        .pay-method-radio {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            border: 2px solid #2a2a2a;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: border-color .2s;
-        }
-
-        .pay-method.selected .pay-method-radio {
-            border-color: var(--accent);
-        }
-
-        .pay-method.selected .pay-method-radio::after {
-            content: '';
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--accent);
-            display: block;
-        }
-
-        /* UPI input panel */
-        .pay-upi-panel {
-            background: #0f0f0f;
-            border: 1px solid #1a1a1a;
-            border-radius: 10px;
-            padding: 14px;
-            margin-top: 10px;
-            display: none;
-        }
-
-        .pay-upi-panel.show {
-            display: block;
-        }
-
-        .pay-upi-panel label {
-            font-size: .78rem;
-            color: #555;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: .05em;
-            display: block;
-            margin-bottom: 7px;
-        }
-
-        .pay-upi-panel input {
-            width: 100%;
-            padding: 11px 13px;
-            border-radius: 8px;
-            border: 1px solid #222;
-            background: #141414;
-            color: #e0e0e0;
-            font-size: .92rem;
-        }
-
-        .pay-upi-panel input::placeholder {
-            color: #333;
-        }
-
-        .pay-upi-panel input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .pay-upi-logos {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .pay-upi-logo-chip {
-            padding: 4px 10px;
-            border-radius: 6px;
-            border: 1px solid #1e1e1e;
-            background: #141414;
-            font-size: .75rem;
-            color: #555;
-            font-weight: 600;
-        }
-
-        .btn-pay {
-            width: 100%;
-            padding: 15px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1rem;
-            color: #fff;
-            letter-spacing: .01em;
-            background: linear-gradient(135deg, #2d9a5f 0%, #1e7048 100%);
-            box-shadow: 0 4px 20px rgba(45, 154, 95, .3);
-            transition: opacity .2s, transform .1s, box-shadow .2s;
-        }
-
-        .btn-pay:hover {
-            opacity: .91;
-            box-shadow: 0 6px 28px rgba(45, 154, 95, .45);
-        }
-
-        .btn-pay:active {
-            transform: scale(.98);
-        }
-
-        .btn-pay:disabled {
-            opacity: .4;
-            cursor: not-allowed;
-        }
-
-        .pay-secure-note {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            margin-top: 12px;
-            color: #2a2a2a;
-            font-size: .74rem;
-        }
-
-        .pay-secure-note span {
-            color: #2d9a5f;
-        }
-
-        /* ─── TRACKING ─── */
-        .track-section {
-            background: var(--bg-2);
-        }
-
-        .track-inner {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .track-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-
-        .track-map {
-            height: 220px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .track-map img {
-            height: 100%;
-            filter: saturate(.8);
-        }
-
-        [data-theme="dark"] .track-map img {
-            filter: saturate(.5) brightness(.7);
-        }
-
-        .track-status {
-            position: absolute;
-            bottom: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 100px;
-            padding: 6px 16px;
-            font-size: .85rem;
-            font-weight: 600;
-            white-space: nowrap;
-            box-shadow: var(--shadow);
-        }
-
-        .track-body {
-            padding: 24px;
-        }
-
-        .track-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .track-id {
-            font-size: .85rem;
-            color: var(--text-2);
-        }
-
-        .live-badge {
-            background: var(--green-light);
-            color: var(--green);
-            font-size: .75rem;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 100px;
-        }
-
-        .track-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px;
-        }
-
-        .track-item {
-            background: var(--bg-2);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px;
-        }
-
-        .track-item-label {
-            font-size: .75rem;
-            color: var(--text-3);
-            text-transform: uppercase;
-            letter-spacing: .06em;
-            margin-bottom: 4px;
-        }
-
-        .track-item-val {
-            font-size: .95rem;
-            font-weight: 700;
-        }
-
-        .track-steps {
-            display: flex;
-            align-items: center;
-            gap: 0;
-            margin: 24px 0 0;
-        }
-
-        .step {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .step-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--border);
-        }
-
-        .step.done .step-dot {
-            background: var(--green);
-        }
-
-        .step.active .step-dot {
-            background: var(--accent);
-            box-shadow: 0 0 0 4px var(--accent-light);
-        }
-
-        .step-label {
-            font-size: .72rem;
-            text-align: center;
-            color: var(--text-3);
-        }
-
-        .step.done .step-label {
-            color: var(--green);
-            font-weight: 600;
-        }
-
-        .step.active .step-label {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .step-line {
-            flex: 1;
-            height: 2px;
-            background: var(--border);
-            margin-top: -18px;
-        }
-
-        .step-line.done {
-            background: var(--green);
-        }
-
-        /* ─── TOAST ─── */
-        .toast-wrap {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 300;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .toast {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px 18px;
-            box-shadow: var(--shadow-lg);
-            font-size: .9rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            max-width: 300px;
-            animation: slideInRight .25s ease;
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .toast-icon {
-            font-size: 1.2rem;
-        }
-
-        .toast.fadeout {
-            opacity: 0;
-            transition: opacity .3s;
-        }
-
-        /* ─── HOW IT WORKS ─── */
-        .how-section {
-            background: var(--bg);
-        }
-
-        .how-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .how-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 32px;
-            margin-top: 48px;
-        }
-
-        .how-step {
-            text-align: center;
-        }
-
-        .how-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 18px;
-            background: var(--accent-light);
-            color: var(--accent);
-            font-size: 1.8rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 16px;
-        }
-
-        .how-step h3 {
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .how-step p {
-            font-size: .9rem;
-            color: var(--text-2);
-        }
-
-        /* ─── FOOTER ─── */
-        footer {
-            background: var(--bg-3);
-            border-top: 1px solid var(--border);
-            padding: clamp(40px, 6vw, 64px) clamp(16px, 5vw, 64px) 32px;
-        }
-
-        .footer-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-top {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-brand h3 {
-            font-weight: 800;
-            font-size: 1.5rem;
-            background: linear-gradient(135deg, var(--accent), var(--yellow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-        }
-
-        .footer-brand p {
-            color: var(--text-2);
-            font-size: .9rem;
-            max-width: 320px;
-            line-height: 1.6;
-        }
-
-        .footer-links-group h4 {
-            font-size: .8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .08em;
-            color: var(--text-3);
-            margin-bottom: 14px;
-        }
-
-        .footer-links-group ul {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .footer-links-group ul li a {
-            font-size: .9rem;
-            color: var(--text-2);
-            transition: color var(--transition);
-        }
-
-        .footer-links-group ul li a:hover {
-            color: var(--accent);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid var(--border);
-            padding-top: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .footer-bottom p {
-            font-size: .83rem;
-            color: var(--text-3);
-        }
-
-        /* ─── ORDER SUCCESS MODAL ─── */
-        .success-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .6);
-            z-index: 300;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-
-        .success-modal.open {
-            display: flex;
-        }
-
-        .success-card {
-            background: var(--surface);
-            border-radius: var(--radius);
-            max-width: 400px;
-            width: 100%;
-            padding: 36px 32px;
-            text-align: center;
-            box-shadow: var(--shadow-lg);
-            animation: slideUp .25s ease;
-        }
-
-        .success-icon {
-            font-size: 3.5rem;
-            margin-bottom: 16px;
-        }
-
-        .success-card h3 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .success-card p {
-            color: var(--text-2);
-            margin-bottom: 24px;
-        }
-
-        .success-info {
-            background: var(--bg-2);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
-            text-align: left;
-            margin-bottom: 24px;
-        }
-
-        .success-info-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: .9rem;
-            padding: 4px 0;
-        }
-
-        .success-info-row span:first-child {
-            color: var(--text-2);
-        }
-
-        .success-info-row span:last-child {
-            font-weight: 700;
-        }
-
-        /* ─── PAGE MODALS (About, Privacy, Terms) ─── */
-        .page-modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .65);
-            z-index: 200;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            overflow-y: auto;
-        }
-
-        .page-modal-overlay.open {
-            display: flex;
-        }
-
-        .page-modal {
-            background: var(--surface);
-            border-radius: 20px;
-            width: 100%;
-            max-width: 680px;
-            max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-lg);
-            animation: slideUp .25s ease;
-        }
-
-        .page-modal-head {
-            position: sticky;
-            top: 0;
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            padding: 20px 28px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1;
-        }
-
-        .page-modal-head h2 {
-            font-size: 1.2rem;
-            font-weight: 800;
-        }
-
-        .page-modal-body {
-            padding: 28px;
-        }
-
-        .page-modal-body h3 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin: 20px 0 8px;
-            color: var(--accent);
-        }
-
-        .page-modal-body h3:first-child {
-            margin-top: 0;
-        }
-
-        .page-modal-body p {
-            font-size: .92rem;
-            color: var(--text-2);
-            line-height: 1.7;
-            margin-bottom: 10px;
-        }
-
-        .page-modal-body ul {
-            padding-left: 20px;
-            margin-bottom: 10px;
-        }
-
-        .page-modal-body ul li {
-            font-size: .92rem;
-            color: var(--text-2);
-            line-height: 1.7;
-            margin-bottom: 4px;
-        }
-
-        .page-modal-close {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: var(--bg-2);
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* ─── RESPONSIVE ─── */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .hero-stats {
-                gap: 20px;
-            }
-
-            .footer-top {
-                grid-template-columns: 1fr;
-            }
-
-            .toast-wrap {
-                bottom: 16px;
-                right: 16px;
-                left: 16px;
-            }
-
-            .toast {
-                max-width: none;
-            }
-
-            .track-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .social-btns {
-                flex-direction: column;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .food-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 12px;
-            }
-
-            .food-img-wrap {
-                height: 140px;
-            }
-
-            .auth-body,
-            .auth-header {
-                padding-left: 20px;
-                padding-right: 20px;
-            }
-
-            .how-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 20px;
-            }
-        }
-
-        /* Reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-
-            *,
-            *::before,
-            *::after {
-                animation-duration: .01ms !important;
-                transition-duration: .01ms !important;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zestify — Order Fresh Food</title>
+  <style>
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --brand: #f97316;
+      --brand-dark: #ea6500;
+      --brand-light: #fff7ed;
+      --surface: #ffffff;
+      --bg: #fafaf9;
+      --card: #ffffff;
+      --text: #1c1917;
+      --text-2: #57534e;
+      --text-3: #a8a29e;
+      --border: #e7e5e4;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(0,0,0,.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,.14);
+      --nav-h: 64px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font: inherit; }
+    img { max-width: 100%; display: block; }
+    input, button { outline: none; }
+    input:focus { outline: 2px solid var(--brand); outline-offset: 1px; }
+
+    /* ─── Utility ─── */
+    .hidden { display: none !important; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+    /* ─── Topbar ─── */
+    #topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      height: var(--nav-h);
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 20px; gap: 12px;
+    }
+    .topbar-logo { font-size: 1.3rem; font-weight: 800; color: var(--brand); letter-spacing: -0.5px; }
+    .topbar-nav { display: flex; gap: 6px; }
+    .topbar-nav a { padding: 6px 12px; border-radius: 20px; font-size: .9rem; color: var(--text-2); font-weight: 500; transition: background .15s, color .15s; }
+    .topbar-nav a:hover { background: var(--brand-light); color: var(--brand); }
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+    #theme-btn { font-size: 1.1rem; padding: 6px; border-radius: 50%; width: 36px; height: 36px; display:flex; align-items:center; justify-content:center; transition: background .15s; }
+    #theme-btn:hover { background: var(--brand-light); }
+    #cart-btn {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--brand); color: #fff;
+      padding: 8px 14px; border-radius: 20px;
+      font-size: .9rem; font-weight: 600;
+      transition: background .15s;
+    }
+    #cart-btn:hover { background: var(--brand-dark); }
+    #cart-count { background: #fff; color: var(--brand); border-radius: 12px; padding: 0 6px; font-size: .75rem; font-weight: 700; min-width: 18px; text-align:center; }
+    #avatar-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--brand); color: #fff; font-weight: 700; font-size: .9rem; display:flex; align-items:center; justify-content:center; }
+
+    /* ─── Mobile menu ─── */
+    #hamburger { display: none; flex-direction: column; gap: 5px; padding: 6px; }
+    #hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: .2s; }
+    #mobile-nav {
+      display: none;
+      position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 890;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px 20px;
+      flex-direction: column; gap: 4px;
+    }
+    #mobile-nav.open { display: flex; }
+    #mobile-nav a { padding: 12px 16px; border-radius: var(--radius-sm); font-size: 1rem; font-weight: 500; color: var(--text-2); transition: background .15s; }
+    #mobile-nav a:hover { background: var(--brand-light); color: var(--brand); }
+    #mobile-nav .sign-out-link { color: #ef4444; }
+
+    /* ─── Auth screen wrapper ─── */
+    .auth-screen {
+      min-height: 100vh; display: flex; align-items: stretch;
+    }
+    .auth-left {
+      flex: 1; display: none; background: var(--brand); position: relative; overflow: hidden;
+    }
+    @media(min-width:768px) { .auth-left { display: flex; flex-direction: column; justify-content: flex-end; padding: 48px; } }
+    .auth-left img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .35; }
+    .auth-left-content { position: relative; z-index: 1; color: #fff; }
+    .auth-left-content h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+    .auth-left-content h2 em { font-style: italic; font-weight: 300; }
+    .auth-left-content p { font-size: 1.05rem; opacity: .85; margin-bottom: 24px; }
+    .auth-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+    .auth-badge { background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); color: #fff; padding: 6px 14px; border-radius: 20px; font-size: .85rem; font-weight: 500; backdrop-filter: blur(8px); }
+    .auth-right {
+      width: 100%; max-width: 480px; margin: 0 auto;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 40px 28px; background: var(--surface);
+    }
+    @media(min-width:768px) { .auth-right { padding: 60px 48px; } }
+    .auth-logo { font-size: 1.4rem; font-weight: 800; color: var(--brand); margin-bottom: 32px; }
+    .auth-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; }
+    .auth-subtitle { color: var(--text-2); margin-bottom: 28px; font-size: .95rem; }
+
+    /* Social login buttons */
+    .social-btns { display: flex; gap: 10px; margin-bottom: 20px; }
+    .social-btn {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px; border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      font-size: .9rem; font-weight: 500; color: var(--text);
+      transition: border-color .15s, background .15s;
+    }
+    .social-btn:hover { border-color: var(--brand); background: var(--brand-light); }
+    .social-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    .divider { display: flex; align-items: center; gap: 10px; color: var(--text-3); font-size: .85rem; margin-bottom: 20px; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* Form */
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: .85rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .form-group input {
+      width: 100%; padding: 12px 14px;
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+      font-size: .95rem; color: var(--text); background: var(--surface);
+      transition: border-color .15s;
+    }
+    .form-group input:focus { border-color: var(--brand); }
+    .form-group input.error { border-color: #ef4444; }
+    .field-error { color: #ef4444; font-size: .8rem; margin-top: 4px; display: none; }
+    .field-error.show { display: block; }
+
+    .auth-error {
+      background: #fef2f2; border: 1px solid #fecaca; color: #dc2626;
+      padding: 11px 14px; border-radius: var(--radius-sm);
+      font-size: .87rem; display: none; margin-bottom: 16px; align-items: center; gap: 8px;
+    }
+    .auth-error.show { display: flex; }
+    .auth-success {
+      background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d;
+      padding: 11px 14px; border-radius: var(--radius-sm);
+      font-size: .87rem; display: none; margin-bottom: 16px; align-items: center; gap: 8px;
+    }
+    .auth-success.show { display: flex; }
+    .password-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .forgot-link { font-size: .82rem; color: var(--brand); font-weight: 500; }
+    .forgot-link:hover { text-decoration: underline; }
+
+    .btn-primary {
+      width: 100%; padding: 13px;
+      background: var(--brand); color: #fff;
+      border-radius: var(--radius-sm); font-size: 1rem; font-weight: 600;
+      transition: background .15s, transform .1s;
+      margin-top: 4px;
+    }
+    .btn-primary:hover { background: var(--brand-dark); }
+    .btn-primary:active { transform: scale(.98); }
+    .btn-primary:disabled { opacity: .6; pointer-events: none; }
+
+    .auth-footer-link { text-align: center; margin-top: 20px; font-size: .9rem; color: var(--text-2); }
+    .auth-footer-link a { color: var(--brand); font-weight: 600; }
+    .auth-footer-link a:hover { text-decoration: underline; }
+
+    /* ─── Main app ─── */
+    #app { padding-top: var(--nav-h); }
+
+    /* Hero */
+    .hero {
+      position: relative; min-height: 92vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; overflow: hidden;
+    }
+    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(160deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.35) 100%); }
+    .hero-content { position: relative; z-index: 1; color: #fff; padding: 24px 20px; max-width: 700px; }
+    .hero-eyebrow { font-size: .85rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: .8; margin-bottom: 16px; }
+    .hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 16px; }
+    .hero h1 em { font-style: italic; color: var(--brand); font-weight: 300; }
+    .hero p { font-size: clamp(1rem, 2vw, 1.2rem); opacity: .9; margin-bottom: 32px; }
+    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .hero-btns .btn-hero {
+      padding: 14px 28px; border-radius: 30px; font-size: 1rem; font-weight: 600;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .hero-btns .btn-hero:active { transform: scale(.97); }
+    .btn-hero-primary { background: var(--brand); color: #fff; }
+    .btn-hero-primary:hover { background: var(--brand-dark); box-shadow: 0 8px 24px rgba(249,115,22,.4); }
+    .btn-hero-ghost { background: rgba(255,255,255,.15); color: #fff; border: 1.5px solid rgba(255,255,255,.5); backdrop-filter: blur(8px); }
+    .btn-hero-ghost:hover { background: rgba(255,255,255,.25); }
+    .hero-stats { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; margin-top: 48px; }
+    .hero-stat { text-align: center; }
+    .hero-stat .num { font-size: 1.8rem; font-weight: 800; }
+    .hero-stat .lbl { font-size: .8rem; opacity: .75; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* Section */
+    .section { padding: 64px 20px; max-width: 1200px; margin: 0 auto; }
+    .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
+    .section-header h2 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; }
+    .section-header a { color: var(--brand); font-size: .9rem; font-weight: 600; }
+    .section-eyebrow { font-size: .78rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--brand); font-weight: 700; margin-bottom: 6px; }
+
+    /* Category tabs */
+    .cat-tabs {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; padding-bottom: 4px;
+    }
+    .cat-tabs::-webkit-scrollbar { display: none; }
+    .cat-tab {
+      flex-shrink: 0; padding: 8px 18px; border-radius: 24px;
+      border: 1.5px solid var(--border); font-size: .88rem; font-weight: 600;
+      color: var(--text-2); background: var(--surface);
+      transition: all .15s; cursor: pointer; white-space: nowrap;
+    }
+    .cat-tab:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
+    .cat-tab.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+
+    /* Menu grid */
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+    .menu-card {
+      background: var(--card); border-radius: var(--radius); border: 1px solid var(--border);
+      overflow: hidden; cursor: pointer;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .menu-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+    .menu-card-img-wrap { position: relative; overflow: hidden; }
+    .menu-card-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; transition: transform .3s; }
+    .menu-card:hover .menu-card-img { transform: scale(1.04); }
+    .menu-card-body { padding: 14px 16px; }
+    .menu-card-name { font-weight: 600; font-size: .97rem; margin-bottom: 4px; line-height: 1.3; }
+    .menu-card-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; gap: 8px; }
+    .menu-card-price { font-size: 1.05rem; font-weight: 700; color: var(--brand); }
+    .add-btn {
+      background: var(--brand); color: #fff; flex-shrink: 0;
+      border-radius: 20px; padding: 6px 14px; font-size: .82rem; font-weight: 600;
+      transition: background .15s;
+    }
+    .add-btn:hover { background: var(--brand-dark); }
+    .menu-card-badge {
+      position: absolute; top: 10px; left: 10px;
+      font-size: .72rem; background: var(--brand); color: #fff;
+      padding: 3px 9px; border-radius: 10px; font-weight: 700;
+      letter-spacing: .3px; pointer-events: none;
+    }
+
+    /* Item modal */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1000;
+      display: flex; align-items: flex-end; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    @media(min-width:600px) { .modal-overlay { align-items: center; } }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--surface); border-radius: var(--radius) var(--radius) 0 0;
+      width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto;
+      transform: translateY(30px); transition: transform .25s;
+    }
+    @media(min-width:600px) { .modal { border-radius: var(--radius); } }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal-img { width: 100%; max-height: 220px; object-fit: cover; }
+    .modal-body { padding: 20px 22px 24px; }
+    .modal-close { position: absolute; top: 12px; right: 14px; font-size: 1.4rem; line-height: 1; background: rgba(255,255,255,.85); border-radius: 50%; width: 32px; height: 32px; display:flex; align-items:center; justify-content:center; }
+    .modal-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+    .modal-desc { color: var(--text-2); font-size: .9rem; margin-bottom: 16px; }
+    .modal-also { margin-bottom: 16px; }
+    .modal-also-title { font-size: .82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-2); margin-bottom: 10px; }
+    .modal-also-items { display: flex; gap: 10px; flex-wrap: wrap; }
+    .also-item { border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 8px 12px; font-size: .87rem; cursor: pointer; transition: border-color .15s; }
+    .also-item:hover { border-color: var(--brand); }
+    .modal-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .qty-ctrl { display: flex; align-items: center; gap: 12px; }
+    .qty-btn { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--border); font-size: 1.2rem; display:flex; align-items:center; justify-content:center; transition: border-color .15s, background .15s; }
+    .qty-btn:hover { border-color: var(--brand); background: var(--brand-light); }
+    .qty-val { font-size: 1.1rem; font-weight: 700; min-width: 24px; text-align: center; }
+    .modal-add-btn { flex: 1; background: var(--brand); color: #fff; padding: 12px; border-radius: var(--radius-sm); font-weight: 600; font-size: .95rem; transition: background .15s; }
+    .modal-add-btn:hover { background: var(--brand-dark); }
+
+    /* Cart drawer */
+    #cart-drawer {
+      position: fixed; right: 0; top: 0; bottom: 0; width: 380px; max-width: 100vw; z-index: 950;
+      background: var(--surface); box-shadow: -8px 0 32px rgba(0,0,0,.12);
+      transform: translateX(100%); transition: transform .25s;
+      display: flex; flex-direction: column;
+    }
+    #cart-drawer.open { transform: translateX(0); }
+    .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 940; display: none; }
+    .cart-overlay.open { display: block; }
+    .cart-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 22px; border-bottom: 1px solid var(--border); }
+    .cart-header h3 { font-size: 1.2rem; font-weight: 700; }
+    .cart-close { font-size: 1.3rem; color: var(--text-2); padding: 4px; }
+    .cart-items { flex: 1; overflow-y: auto; padding: 16px 22px; }
+    .cart-empty { text-align: center; color: var(--text-3); padding: 48px 0; font-size: .95rem; }
+    .cart-item { display: flex; gap: 14px; margin-bottom: 16px; align-items: center; }
+    .cart-item-img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-weight: 600; font-size: .95rem; }
+    .cart-item-price { color: var(--brand); font-size: .9rem; font-weight: 600; margin-top: 2px; }
+    .cart-item-qty { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+    .cart-qty-btn { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border); font-size: 1rem; display:flex; align-items:center; justify-content:center; }
+    .cart-qty-val { font-size: .9rem; font-weight: 600; min-width: 18px; text-align: center; }
+    .cart-remove { color: var(--text-3); font-size: .85rem; padding: 4px; }
+    .cart-footer { border-top: 1px solid var(--border); padding: 18px 22px 22px; }
+    .coupon-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    .coupon-input { flex: 1; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: .9rem; }
+    .coupon-input:focus { border-color: var(--brand); }
+    .coupon-apply { padding: 10px 16px; background: var(--brand-light); color: var(--brand); border-radius: var(--radius-sm); font-weight: 600; font-size: .9rem; }
+    .cart-totals { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .cart-row { display: flex; justify-content: space-between; font-size: .92rem; color: var(--text-2); }
+    .cart-row.total { font-size: 1.05rem; font-weight: 700; color: var(--text); border-top: 1px solid var(--border); padding-top: 10px; margin-top: 4px; }
+    .checkout-btn { width: 100%; background: var(--brand); color: #fff; padding: 14px; border-radius: var(--radius-sm); font-size: 1rem; font-weight: 700; transition: background .15s; }
+    .checkout-btn:hover { background: var(--brand-dark); }
+
+    /* Tracking */
+    #tracking { background: #fff; }
+    .tracking-inner { max-width: 760px; margin: 0 auto; padding: 64px 20px; }
+    .track-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .track-header { background: var(--brand); color: #fff; padding: 16px 22px; display: flex; align-items: center; justify-content: space-between; }
+    .track-header h3 { font-size: 1rem; font-weight: 700; }
+    .live-badge { background: rgba(255,255,255,.2); padding: 3px 10px; border-radius: 12px; font-size: .78rem; font-weight: 600; }
+    .track-body { padding: 22px; }
+    .track-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 20px; }
+    @media(min-width:500px) { .track-stats { grid-template-columns: repeat(4, 1fr); } }
+    .track-stat { text-align: center; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 10px; }
+    .track-stat .icon { font-size: 1.3rem; margin-bottom: 6px; }
+    .track-stat .lbl { font-size: .75rem; color: var(--text-2); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 4px; }
+    .track-stat .val { font-size: .95rem; font-weight: 700; }
+    .track-map { border-radius: var(--radius-sm); overflow: hidden; height: 200px; margin-bottom: 16px; }
+    .track-map img { width: 100%; height: 100%; object-fit: cover; }
+    .track-progress { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; display: flex; align-items: center; gap: 10px; font-size: .9rem; font-weight: 500; }
+    .track-icon-anim { animation: bounce .8s infinite alternate; display: inline-block; }
+    @keyframes bounce { from { transform: translateX(-4px); } to { transform: translateX(4px); } }
+    .support-btn { background: var(--brand-light); color: var(--brand); padding: 10px 18px; border-radius: var(--radius-sm); font-size: .9rem; font-weight: 600; margin-top: 14px; display: inline-block; }
+
+    /* Order success modal */
+    #success-modal .modal { text-align: center; padding: 48px 28px; }
+    #success-modal .modal h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; }
+    #success-modal .modal p { color: var(--text-2); margin-bottom: 24px; }
+    .success-icon { font-size: 3.5rem; margin-bottom: 20px; }
+    .confirm-box { background: var(--brand-light); border-radius: var(--radius-sm); padding: 14px 20px; margin-bottom: 24px; font-size: .9rem; }
+
+    /* Footer */
+    footer { background: #1c1917; color: #d6d3d1; padding: 56px 24px 36px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-top { display: flex; gap: 48px; flex-wrap: wrap; margin-bottom: 40px; }
+    .footer-brand { flex: 2; min-width: 220px; }
+    .footer-brand-name { font-size: 1.5rem; font-weight: 800; color: var(--brand); margin-bottom: 10px; }
+    .footer-brand p { font-size: .9rem; line-height: 1.7; max-width: 300px; opacity: .75; }
+    .footer-col { flex: 1; min-width: 160px; }
+    .footer-col h4 { font-size: .8rem; text-transform: uppercase; letter-spacing: 1.5px; color: #fff; font-weight: 700; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a { font-size: .9rem; opacity: .75; transition: opacity .15s; }
+    .footer-col ul a:hover { opacity: 1; color: var(--brand); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: .82rem; opacity: .6; }
+
+    /* Page modals (About, Privacy, Terms) */
+    .page-modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 1100;
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+      opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    .page-modal-overlay.open { opacity: 1; pointer-events: all; }
+    .page-modal {
+      background: var(--surface); border-radius: var(--radius);
+      width: 100%; max-width: 700px; max-height: 88vh;
+      overflow-y: auto;
+      transform: scale(.96); transition: transform .2s;
+    }
+    .page-modal-overlay.open .page-modal { transform: scale(1); }
+    .page-modal-header {
+      position: sticky; top: 0; background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 24px; z-index: 1;
+    }
+    .page-modal-header h2 { font-size: 1.2rem; font-weight: 700; }
+    .page-modal-close { font-size: 1.4rem; color: var(--text-2); padding: 4px; transition: color .15s; }
+    .page-modal-close:hover { color: var(--text); }
+    .page-modal-body { padding: 28px 28px 40px; }
+    .page-modal-body h3 { font-size: 1.05rem; font-weight: 700; margin: 24px 0 10px; color: var(--text); }
+    .page-modal-body h3:first-child { margin-top: 0; }
+    .page-modal-body p { font-size: .93rem; line-height: 1.75; color: var(--text-2); margin-bottom: 12px; }
+    .page-modal-body ul { padding-left: 20px; margin-bottom: 12px; }
+    .page-modal-body ul li { font-size: .93rem; line-height: 1.75; color: var(--text-2); margin-bottom: 6px; }
+    .page-modal-badge { display: inline-block; background: var(--brand-light); color: var(--brand); padding: 4px 12px; border-radius: 20px; font-size: .78rem; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* Dark mode */
+    body.dark {
+      --surface: #1c1917; --bg: #111110; --card: #1c1917;
+      --text: #fafaf9; --text-2: #a8a29e; --text-3: #78716c;
+      --border: #292524;
+      --brand-light: rgba(249,115,22,.12);
+    }
+    body.dark #topbar { background: rgba(28,25,23,.9); }
+    body.dark .auth-right { background: #1c1917; }
+    body.dark .auth-left-content h2 { color: #fff; }
+    body.dark .cat-tab { background: #1c1917; }
+
+    /* Responsive */
+    @media(max-width:768px) {
+      .topbar-nav { display: none; }
+      #hamburger { display: flex; }
+      #theme-btn { display: none; }
+      .hero { min-height: 75vh; }
+      .hero h1 { font-size: 1.9rem; }
+      .hero-stats { gap: 16px; margin-top: 32px; }
+      .hero-stat .num { font-size: 1.35rem; }
+      .hero-stat .lbl { font-size: .72rem; }
+      .menu-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+      .section { padding: 40px 16px; }
+      #cart-drawer { width: 100%; max-width: 100vw; }
+      .cart-header h3 { font-size: 1.1rem; }
+      .tracking-inner { padding: 40px 16px; }
+      .track-body { padding: 16px; }
+    }
+    @media(max-width:480px) {
+      :root { --nav-h: 56px; }
+      #topbar { padding: 0 14px; }
+      .topbar-logo { font-size: 1.15rem; }
+      #cart-btn { padding: 7px 11px; font-size: .82rem; gap: 4px; }
+      #avatar-btn { width: 32px; height: 32px; font-size: .82rem; }
+      .hero { min-height: 70vh; }
+      .hero h1 { font-size: 1.55rem; }
+      .hero p { font-size: .92rem; }
+      .hero-btns { flex-direction: column; align-items: center; }
+      .hero-btns .btn-hero { width: 100%; max-width: 260px; text-align: center; padding: 12px 20px; }
+      .hero-stats { gap: 12px; }
+      .hero-stat .num { font-size: 1.2rem; }
+      .menu-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .menu-card-body { padding: 10px 11px; }
+      .menu-card-name { font-size: .85rem; }
+      .menu-card-price { font-size: .95rem; }
+      .add-btn { padding: 5px 10px; font-size: .78rem; }
+      .footer-top { gap: 24px; }
+      .footer-brand p { display: none; }
+      .page-modal-body { padding: 18px 16px 28px; }
+      .cat-tab { padding: 7px 14px; font-size: .82rem; }
+      .track-stats { grid-template-columns: repeat(2, 1fr); }
+      .section-header h2 { font-size: 1.3rem; }
+      .modal-body { padding: 16px 18px 20px; }
+      .modal-footer { flex-direction: column; gap: 10px; }
+      .modal-footer .qty-ctrl { justify-content: center; }
+      .modal-add-btn { width: 100%; }
+      .cart-footer { padding: 14px 16px 18px; }
+    }
+    @media(max-width:360px) {
+      .menu-grid { grid-template-columns: 1fr; }
+      .menu-card { display: flex; flex-direction: row; }
+      .menu-card-img-wrap { width: 110px; flex-shrink: 0; }
+      .menu-card-img { width: 100%; height: 100%; aspect-ratio: unset; border-radius: 0; }
+      .menu-card-body { display: flex; flex-direction: column; justify-content: center; }
+    }
+
+    /* Transitions */
+    .fade-in { animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  </style>
 </head>
-
 <body>
 
-    <!-- ══ NAVBAR ══ -->
-    <nav id="navbar">
-        <a href="#" class="nav-logo">Zestify</a>
-        <div class="nav-links">
-            <a href="#menu">Menu</a>
-            <a href="#tracking">Track Order</a>
-            <a href="#footer">About</a>
-        </div>
-        <div class="nav-actions">
-            <button class="btn-theme" id="themeToggle" title="Toggle dark mode">🌙</button>
-            <button class="btn-cart" id="cartBtn">
-                🛒 <span id="cartCountNav">0</span>
-            </button>
-            <button class="btn-user" id="userBtn" title="Account">U</button>
-            <button class="hamburger" id="hamburger" aria-label="Menu">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="#menu" onclick="closeMobileMenu()">🍔 Menu</a>
-        <a href="#tracking" onclick="closeMobileMenu()">📦 Track Order</a>
-        <a href="#footer" onclick="closeMobileMenu()">ℹ️ About</a>
-        <div class="divider"></div>
-        <a href="#" onclick="closeMobileMenu(); openAuth('login')">🔑 Sign in</a>
-        <a href="#" onclick="closeMobileMenu(); openAuth('signup')">✨ Create account</a>
-    </div>
-
-    <!-- ══ HERO ══ -->
-    <section class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <div class="hero-badge"><span></span> 200+ Restaurants live now</div>
-            <h1>Hungry?<br>We've got <em>you covered.</em></h1>
-            <p>Hot, fresh meals from local favourites — delivered to your door in 30 minutes or less.</p>
-            <div class="hero-btns">
-                <a href="#menu" class="btn-primary">Order Now 🍕</a>
-                <a href="#tracking" class="btn-outline">Track Order</a>
-            </div>
-        </div>
-        <div class="scroll-hint">
-            <span>↓</span><span>scroll to explore</span>
-        </div>
-    </section>
-
-    <!-- ══ CATEGORIES ══ -->
-    <section class="section categories-section" style="padding-top:36px;padding-bottom:36px;">
-        <div class="categories-inner">
-            <div class="categories-scroll" id="catScroll">
-                <button class="cat-chip active" onclick="filterCat('all',this)"><span>🍽️</span> All</button>
-                <button class="cat-chip" onclick="filterCat('pizza',this)"><span>🍕</span> Pizza</button>
-                <button class="cat-chip" onclick="filterCat('burger',this)"><span>🍔</span> Burgers</button>
-                <button class="cat-chip" onclick="filterCat('sushi',this)"><span>🍣</span> Sushi</button>
-                <button class="cat-chip" onclick="filterCat('pasta',this)"><span>🍝</span> Pasta</button>
-                <button class="cat-chip" onclick="filterCat('salad',this)"><span>🥗</span> Salads</button>
-                <button class="cat-chip" onclick="filterCat('dessert',this)"><span>🍰</span> Desserts</button>
-                <button class="cat-chip" onclick="filterCat('drinks',this)"><span>🥤</span> Drinks</button>
-                <button class="cat-chip" onclick="filterCat('indian',this)"><span>🍛</span> Indian</button>
-                <button class="cat-chip" onclick="filterCat('tacos',this)"><span>🌮</span> Tacos</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- ══ MENU ══ -->
-    <section class="section menu-section" id="menu">
-        <div class="menu-inner">
-            <div class="menu-header">
-                <div class="section-header" style="margin-bottom:0">
-                    <div class="eyebrow">✦ Explore</div>
-                    <h2>What's on the <em style="font-style:italic;color:var(--accent);">menu</em></h2>
-                </div>
-                <a href="#" class="see-all">See all →</a>
-            </div>
-            <div class="food-grid" id="foodGrid"></div>
-        </div>
-    </section>
-
-    <!-- ══ HOW IT WORKS ══ -->
-    <section class="section how-section">
-        <div class="how-inner">
-            <div class="section-header" style="text-align:center;max-width:100%">
-                <div class="eyebrow">Simple as 1-2-3</div>
-                <h2>Order in minutes</h2>
-                <p style="margin:0 auto;">From browsing to biting — we've made every step frictionless.</p>
-            </div>
-            <div class="how-grid">
-                <div class="how-step">
-                    <div class="how-icon">🍔</div>
-                    <h3>Choose your food</h3>
-                    <p>Browse 200+ restaurants and thousands of dishes. Filter by cuisine, rating, or delivery time.</p>
-                </div>
-                <div class="how-step">
-                    <div class="how-icon">📍</div>
-                    <h3>Set your location</h3>
-                    <p>Enter your address and we'll find the nearest restaurants with real-time availability.</p>
-                </div>
-                <div class="how-step">
-                    <div class="how-icon">💳</div>
-                    <h3>Pay securely</h3>
-                    <p>Card, UPI, or cash on delivery — all payments are encrypted and secure.</p>
-                </div>
-                <div class="how-step">
-                    <div class="how-icon">🚴</div>
-                    <h3>Track live</h3>
-                    <p>Watch your order travel from kitchen to door with GPS-accurate live tracking.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ══ TRACKING ══ -->
-    <section class="section track-section" id="tracking">
-        <div class="track-inner">
-            <div class="section-header">
-                <div class="eyebrow">📦 Live</div>
-                <h2>Track your order</h2>
-            </div>
-            <div class="track-card">
-                <div class="track-map">
-                    <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=60" alt="Map" />
-                    <div class="track-status">🚴 Rider is on the way…</div>
-                </div>
-                <div class="track-body">
-                    <div class="track-header">
-                        <div>
-                            <div class="track-id">Order ID</div>
-                            <strong>#ZST-2024-8842</strong>
-                        </div>
-                        <span class="live-badge">● Live</span>
-                    </div>
-                    <div class="track-grid">
-                        <div class="track-item">
-                            <div class="track-item-label">🚴 Rider</div>
-                            <div class="track-item-val">Rajan K.</div>
-                        </div>
-                        <div class="track-item">
-                            <div class="track-item-label">📍 Distance</div>
-                            <div class="track-item-val">1.2 km</div>
-                        </div>
-                        <div class="track-item">
-                            <div class="track-item-label">⏱ ETA</div>
-                            <div class="track-item-val">~8 min</div>
-                        </div>
-                        <div class="track-item">
-                            <div class="track-item-label">📞 Support</div>
-                            <div class="track-item-val"><a href="tel:+1800555" style="color:var(--accent)">Call
-                                    Rider</a></div>
-                        </div>
-                    </div>
-                    <div class="track-steps">
-                        <div class="step done">
-                            <div class="step-dot"></div>
-                            <div class="step-label">Placed</div>
-                        </div>
-                        <div class="step-line done"></div>
-                        <div class="step done">
-                            <div class="step-dot"></div>
-                            <div class="step-label">Confirmed</div>
-                        </div>
-                        <div class="step-line done"></div>
-                        <div class="step done">
-                            <div class="step-dot"></div>
-                            <div class="step-label">Prepared</div>
-                        </div>
-                        <div class="step-line done"></div>
-                        <div class="step active">
-                            <div class="step-dot"></div>
-                            <div class="step-label">On way</div>
-                        </div>
-                        <div class="step-line"></div>
-                        <div class="step">
-                            <div class="step-dot"></div>
-                            <div class="step-label">Delivered</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ══ FOOTER ══ -->
-    <footer id="footer">
-        <div class="footer-inner">
-            <div class="footer-top">
-                <div class="footer-brand">
-                    <h3>Zestify</h3>
-                    <p>Hot food, fast delivery, every day. Bringing the best restaurants to your door — fresh, on time,
-                        and made with care.</p>
-                </div>
-                <div class="footer-links-group">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="#" onclick="openPage('about');return false;">About Us</a></li>
-                        <li><a href="#" onclick="openPage('privacy');return false;">Privacy Policy</a></li>
-                        <li><a href="#" onclick="openPage('terms');return false;">Terms of Service</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2025 Zestify Inc. All rights reserved.</p>
-                <p>Made with ❤️ for hungry people</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- ══ CART SIDEBAR ══ -->
-    <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
-    <aside class="cart-panel" id="cartPanel">
-        <div class="cart-head">
-            <h3>🛒 Your Order</h3>
-            <button class="cart-close" onclick="closeCart()">✕</button>
-        </div>
-        <div class="cart-items" id="cartItems">
-            <div class="cart-empty">
-                <span class="icon">🍕</span>
-                <p>Your cart is empty.<br>Add something delicious!</p>
-            </div>
-        </div>
-        <div class="cart-footer">
-            <div class="coupon-row">
-                <input type="text" class="coupon-input" id="couponInput" placeholder="Coupon code" />
-                <button class="btn-apply" onclick="applyCoupon()">Apply</button>
-            </div>
-            <div class="cart-totals">
-                <div class="cart-row"><span>Subtotal</span><span id="subtotalVal">$0.00</span></div>
-                <div class="cart-row"><span>Delivery</span><span>$2.99</span></div>
-                <div class="cart-row"><span>Discount</span><span id="discountVal">—</span></div>
-                <div class="cart-row total"><span>Total</span><span id="totalVal">$2.99</span></div>
-            </div>
-            <button class="btn-checkout" onclick="placeOrder()">Place Order →</button>
-        </div>
-    </aside>
-
-    <!-- ══ PRODUCT MODAL ══ -->
-    <div class="modal-overlay" id="productModal" onclick="closeProductModal(event)">
-        <div class="modal" style="position:relative">
-            <button class="modal-close" onclick="closeProductModal()">✕</button>
-            <div class="modal-img"><img id="modalImg" src="" alt="" /></div>
-            <div class="modal-body">
-                <h3 id="modalName"></h3>
-                <p id="modalDesc"></p>
-                <div class="modal-footer">
-                    <div class="qty-ctrl">
-                        <button class="qty-btn" onclick="changeQty(-1)">−</button>
-                        <span class="qty-num" id="modalQty">1</span>
-                        <button class="qty-btn" onclick="changeQty(1)">+</button>
-                    </div>
-                    <button class="btn-add-order" onclick="addCurrentToCart()">Add to order — <span
-                            id="modalTotal"></span></button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ══ LOGIN MODAL ══ -->
-    <div class="auth-overlay" id="loginOverlay">
-        <div class="auth-card auth-relative">
-            <button class="auth-close-btn" onclick="closeAuth('login')" title="Close">✕</button>
-            <div class="auth-header">
-                <div class="auth-brand-row">
-                    <div class="auth-logo-icon">🍕</div>
-                    <span class="auth-logo-text">Zestify</span>
-                </div>
-                <h2>Welcome <em>back</em></h2>
-                <p>Sign in to continue to your account</p>
-            </div>
-            <div class="auth-body">
-                <div class="social-btns">
-                    <button class="btn-social" onclick="socialLogin('Google')">
-                        <svg width="17" height="17" viewBox="0 0 24 24">
-                            <path fill="#4285F4"
-                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                            <path fill="#34A853"
-                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                            <path fill="#FBBC05"
-                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
-                            <path fill="#EA4335"
-                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                        </svg>
-                        Continue with Google
-                    </button>
-                </div>
-                <div class="divider-or">or use email</div>
-                <div class="auth-alert" id="loginAlert">⚠️ <span id="loginAlertMsg">Incorrect email or password.</span>
-                </div>
-                <div class="form-group">
-                    <label for="loginEmail">Email address</label>
-                    <input type="email" id="loginEmail" class="form-input" placeholder="you@example.com"
-                        autocomplete="email" />
-                    <span class="form-error" id="loginEmailErr">Please enter a valid email address.</span>
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Password</label>
-                    <input type="password" id="loginPassword" class="form-input" placeholder="••••••••"
-                        autocomplete="current-password" />
-                    <span class="form-error" id="loginPassErr">Password is required.</span>
-                </div>
-                <button class="btn-submit" onclick="handleLogin()">Sign in →</button>
-                <div class="auth-secure"><span>🔒</span> 256-bit encrypted &amp; secure</div>
-                <div class="auth-switch">Don't have an account? <a href="#"
-                        onclick="switchAuth('signup');return false;">Sign up free</a></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ══ SIGNUP MODAL ══ -->
-    <div class="auth-overlay" id="signupOverlay">
-        <div class="auth-card auth-relative">
-            <button class="auth-close-btn" onclick="closeAuth('signup')" title="Close">✕</button>
-            <div class="auth-header">
-                <div class="auth-brand-row">
-                    <div class="auth-logo-icon">🍕</div>
-                    <span class="auth-logo-text">Zestify</span>
-                </div>
-                <h2>Create <em>account</em></h2>
-                <p>Free forever — takes under a minute</p>
-            </div>
-            <div class="auth-body">
-                <div class="auth-alert" id="signupAlert">⚠️ <span id="signupAlertMsg">Please fill all fields
-                        correctly.</span></div>
-                <div class="form-group">
-                    <label for="signupName">Full name</label>
-                    <input type="text" id="signupName" class="form-input" placeholder="Jane Doe" autocomplete="name" />
-                    <span class="form-error" id="signupNameErr">Name must be at least 2 characters.</span>
-                </div>
-                <div class="form-group">
-                    <label for="signupEmail">Email address</label>
-                    <input type="email" id="signupEmail" class="form-input" placeholder="you@example.com"
-                        autocomplete="email" />
-                    <span class="form-error" id="signupEmailErr">Please enter a valid email address.</span>
-                </div>
-                <div class="form-group">
-                    <label for="signupPassword">Password</label>
-                    <input type="password" id="signupPassword" class="form-input" placeholder="Min. 8 characters"
-                        autocomplete="new-password" oninput="checkPwStrength(this.value)" />
-                    <div class="pw-strength">
-                        <div class="pw-strength-bar" id="pwBar"></div>
-                    </div>
-                    <p class="pw-hint" id="pwHint">Use 8+ characters with a mix of letters &amp; numbers</p>
-                    <span class="form-error" id="signupPassErr">Password must be at least 8 characters.</span>
-                </div>
-                <button class="btn-submit" onclick="handleSignup()">Create account →</button>
-                <div class="auth-secure"><span>🔒</span> 256-bit encrypted &amp; secure</div>
-                <div class="auth-switch">Already have an account? <a href="#"
-                        onclick="switchAuth('login');return false;">Sign in</a></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ══ ORDER SUCCESS ══ -->
-    <div class="success-modal" id="successModal">
-        <div class="success-card">
-            <div class="success-icon">🎉</div>
-            <h3>Order Placed!</h3>
-            <p>Your food is being prepared. Track it live above.</p>
-            <div class="success-info">
-                <div class="success-info-row"><span>Order ID</span><span>#ZST-2024-8842</span></div>
-                <div class="success-info-row"><span>Estimated delivery</span><span>25–35 min</span></div>
-                <div class="success-info-row"><span>Status</span><span style="color:var(--green)">✓ Confirmed</span>
-                </div>
-            </div>
-            <button class="btn-primary" style="width:100%;justify-content:center;" onclick="closeSuccess()">Got
-                it!</button>
-        </div>
-    </div>
-
-    <!-- ══ PAGE MODALS ══ -->
-    <!-- About -->
-    <div class="page-modal-overlay" id="aboutModal">
-        <div class="page-modal">
-            <div class="page-modal-head">
-                <h2>About Us</h2>
-                <button class="page-modal-close" onclick="closePage('about')">✕</button>
-            </div>
-            <div class="page-modal-body">
-                <h3>Our Story</h3>
-                <p>Zestify was founded in 2020 with a simple mission: make great food accessible to everyone, delivered
-                    fast and fresh. What started as a small team in one city has grown into a platform connecting
-                    50,000+ customers with over 200 restaurants every single day.</p>
-                <h3>What We Do</h3>
-                <p>We partner with the best local restaurants and independent chefs to bring you a curated selection of
-                    food — from quick comfort meals to chef-crafted specials. Every restaurant on our platform is vetted
-                    for quality, hygiene, and consistency.</p>
-                <h3>Our Promise</h3>
-                <ul>
-                    <li>Delivery in 30 minutes or your next order is free</li>
-                    <li>Real-time GPS tracking on every order</li>
-                    <li>24/7 customer support via chat and phone</li>
-                    <li>100% secure payments with bank-grade encryption</li>
-                    <li>No hidden fees — the price you see is what you pay</li>
-                </ul>
-                <h3>Our Team</h3>
-                <p>We're a team of 120+ food lovers, engineers, and logistics experts working every day to make your
-                    meal arrive hot and on time. Our riders are full-time employees with fair pay, health benefits, and
-                    flexible scheduling.</p>
-                <h3>Contact Us</h3>
-                <p>Have questions or feedback? Reach us at <strong>hello@zestify.com</strong> or call
-                    <strong>1-800-ZES-TIFY</strong>. We're available Monday–Sunday, 8 AM–11 PM.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Privacy -->
-    <div class="page-modal-overlay" id="privacyModal">
-        <div class="page-modal">
-            <div class="page-modal-head">
-                <h2>Privacy Policy</h2>
-                <button class="page-modal-close" onclick="closePage('privacy')">✕</button>
-            </div>
-            <div class="page-modal-body">
-                <p><em>Last updated: January 1, 2025</em></p>
-                <h3>1. Information We Collect</h3>
-                <p>We collect information you provide directly (name, email, address, payment details), information
-                    generated by your use of our services (order history, location data, device information), and
-                    information from third parties (social login providers, payment processors).</p>
-                <h3>2. How We Use Your Information</h3>
-                <ul>
-                    <li>To process and deliver your orders</li>
-                    <li>To provide real-time delivery tracking</li>
-                    <li>To send order confirmations and delivery updates</li>
-                    <li>To improve our platform and personalise recommendations</li>
-                    <li>To prevent fraud and maintain platform security</li>
-                </ul>
-                <h3>3. Data Sharing</h3>
-                <p>We share your data with restaurants (to prepare your order), delivery riders (name and delivery
-                    address only), and payment processors (to complete transactions). We never sell your personal data
-                    to third parties for marketing purposes.</p>
-                <h3>4. Data Retention</h3>
-                <p>We retain your account data for as long as your account is active. Order history is retained for 7
-                    years for legal and tax compliance. You may request deletion of your account at any time.</p>
-                <h3>5. Your Rights</h3>
-                <p>You have the right to access, correct, or delete your personal data. You may also opt out of
-                    marketing communications at any time. Contact us at <strong>privacy@zestify.com</strong> to exercise
-                    these rights.</p>
-                <h3>6. Security</h3>
-                <p>We use industry-standard TLS encryption, tokenised payment processing, and regular security audits to
-                    protect your data. No system is 100% secure, but we take every reasonable measure to safeguard your
-                    information.</p>
-                <h3>7. Cookies</h3>
-                <p>We use essential cookies for authentication and preferences, and optional analytics cookies to
-                    improve our service. You can manage cookie preferences in your browser settings.</p>
-                <h3>8. Contact</h3>
-                <p>For privacy-related inquiries, contact our Data Protection Officer at
-                    <strong>dpo@zestify.com</strong>.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Terms -->
-    <div class="page-modal-overlay" id="termsModal">
-        <div class="page-modal">
-            <div class="page-modal-head">
-                <h2>Terms of Service</h2>
-                <button class="page-modal-close" onclick="closePage('terms')">✕</button>
-            </div>
-            <div class="page-modal-body">
-                <p><em>Last updated: January 1, 2025</em></p>
-                <h3>1. Acceptance of Terms</h3>
-                <p>By using Zestify, you agree to these Terms of Service. If you do not agree, please do not use our
-                    platform. These terms apply to all users, including customers, restaurants, and delivery riders.</p>
-                <h3>2. Use of Service</h3>
-                <p>You must be at least 18 years old to create an account. You are responsible for maintaining the
-                    confidentiality of your account credentials. You agree not to use our service for any unlawful
-                    purpose.</p>
-                <h3>3. Orders and Payment</h3>
-                <ul>
-                    <li>All prices are displayed inclusive of applicable taxes</li>
-                    <li>Payment is charged at the time of order placement</li>
-                    <li>Orders may be cancelled within 2 minutes of placement for a full refund</li>
-                    <li>Refunds for late or incorrect orders are processed within 3–5 business days</li>
-                </ul>
-                <h3>4. Delivery</h3>
-                <p>Delivery times are estimates and may vary due to distance, restaurant preparation time, and traffic
-                    conditions. Zestify is not liable for delays caused by events outside our reasonable control.</p>
-                <h3>5. Restaurant Responsibility</h3>
-                <p>Restaurants listed on Zestify are independent businesses. While we vet all partners for quality and
-                    hygiene, Zestify is not responsible for the ingredients, allergen information, or food preparation
-                    practices of individual restaurants.</p>
-                <h3>6. Prohibited Conduct</h3>
-                <ul>
-                    <li>Placing fraudulent or false orders</li>
-                    <li>Attempting to reverse-engineer or scrape our platform</li>
-                    <li>Harassing or threatening restaurant staff or delivery riders</li>
-                    <li>Submitting false reviews or ratings</li>
-                </ul>
-                <h3>7. Limitation of Liability</h3>
-                <p>Zestify's liability is limited to the value of the affected order. We are not liable for indirect,
-                    incidental, or consequential damages arising from your use of our service.</p>
-                <h3>8. Changes to Terms</h3>
-                <p>We may update these terms at any time. We will notify you of significant changes via email. Continued
-                    use of our service after notification constitutes acceptance of the updated terms.</p>
-                <h3>9. Governing Law</h3>
-                <p>These terms are governed by the laws of the jurisdiction in which Zestify Inc. is registered.
-                    Disputes shall be resolved through binding arbitration.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- ══ PAYMENT MODAL ══ -->
-    <div class="pay-overlay" id="payOverlay">
-        <div class="pay-card">
-            <button class="pay-close-btn" onclick="closePayment()" title="Close">✕</button>
-            <div class="pay-head">
-                <div class="pay-head-left">
-                    <h3>Secure Checkout</h3>
-                    <p>Choose your payment method</p>
-                </div>
-            </div>
-
-            <!-- Order summary inside payment -->
-            <div class="pay-order-summary">
-                <div class="pay-summary-row"><span>Subtotal</span><span id="paySub">$0.00</span></div>
-                <div class="pay-summary-row"><span>Delivery</span><span>$2.99</span></div>
-                <div class="pay-summary-row"><span>Discount</span><span id="payDisc">—</span></div>
-                <div class="pay-summary-row total-row"><span>Total</span><span id="payTotal">$2.99</span></div>
-            </div>
-
-            <div class="pay-body">
-                <div class="pay-section-label">Select payment method</div>
-                <div class="pay-methods">
-
-                    <!-- UPI -->
-                    <div class="pay-method" id="pmUPI" onclick="selectPayMethod('upi')">
-                        <div class="pay-method-icon upi">
-                            <svg width="22" height="22" viewBox="0 0 48 48" fill="none">
-                                <rect width="48" height="48" rx="8" fill="#6739B7" />
-                                <text x="24" y="30" text-anchor="middle" fill="white" font-size="13" font-weight="800"
-                                    font-family="Arial">UPI</text>
-                            </svg>
-                        </div>
-                        <div class="pay-method-info">
-                            <h4>UPI</h4>
-                            <p>Pay via any UPI app instantly</p>
-                        </div>
-                        <div class="pay-method-radio"></div>
-                    </div>
-                    <!-- UPI ID input -->
-                    <div class="pay-upi-panel" id="upiPanel">
-                        <label>Your UPI ID</label>
-                        <input type="text" id="upiId" placeholder="yourname@upi" />
-                        <div class="pay-upi-logos">
-                            <span class="pay-upi-logo-chip">PhonePe</span>
-                            <span class="pay-upi-logo-chip">Paytm</span>
-                            <span class="pay-upi-logo-chip">BHIM</span>
-                            <span class="pay-upi-logo-chip">GPay</span>
-                        </div>
-                    </div>
-
-                    <!-- Google Pay -->
-                    <div class="pay-method" id="pmGpay" onclick="selectPayMethod('gpay')">
-                        <div class="pay-method-icon gpay">
-                            <svg width="22" height="22" viewBox="0 0 48 48" fill="none">
-                                <rect width="48" height="48" rx="8" fill="#fff" />
-                                <text x="24" y="31" text-anchor="middle" font-size="11" font-weight="800"
-                                    font-family="Arial">
-                                    <tspan fill="#4285F4">G</tspan>
-                                    <tspan fill="#EA4335">P</tspan>
-                                    <tspan fill="#FBBC05">a</tspan>
-                                    <tspan fill="#34A853">y</tspan>
-                                </text>
-                            </svg>
-                        </div>
-                        <div class="pay-method-info">
-                            <h4>Google Pay</h4>
-                            <p>Fast &amp; secure with your Google account</p>
-                        </div>
-                        <div class="pay-method-radio"></div>
-                    </div>
-
-                    <!-- Cash on Delivery -->
-                    <div class="pay-method" id="pmCOD" onclick="selectPayMethod('cod')">
-                        <div class="pay-method-icon cod">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2d9a5f"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="1" y="4" width="22" height="16" rx="2" />
-                                <line x1="1" y1="10" x2="23" y2="10" />
-                            </svg>
-                        </div>
-                        <div class="pay-method-info">
-                            <h4>Cash on Delivery</h4>
-                            <p>Pay in cash when your order arrives</p>
-                        </div>
-                        <div class="pay-method-radio"></div>
-                    </div>
-
-                </div>
-
-                <button class="btn-pay" id="btnPay" onclick="confirmPayment()" disabled>
-                    <span id="btnPayLabel">Select a payment method</span>
-                </button>
-                <div class="pay-secure-note"><span>🔒</span> 256-bit SSL encrypted — your data is safe</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast container -->
-    <div class="toast-wrap" id="toastWrap"></div>
-
-    <!-- ══ SCRIPT ══ -->
-    <script>
-        // ── DATA ──
-        const FOODS = [
-            { id: 1, name: 'Margherita Pizza', price: 14.99, cat: 'pizza', badge: 'veg', rating: '4.8', meta: 'Classic tomato & mozzarella', desc: 'Hand-stretched dough, San Marzano tomato sauce, fresh buffalo mozzarella, and fragrant basil. Baked at 480°C in our wood-fired oven.', img: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&q=80' },
-            { id: 2, name: 'Dragon Roll', price: 17.99, cat: 'sushi', badge: 'popular', rating: '4.9', meta: 'Avocado, crab & eel on top', desc: 'Crispy shrimp tempura rolled with cucumber, topped with avocado and smoked eel, finished with a drizzle of sweet unagi sauce.', img: 'https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600&q=80' },
-            { id: 3, name: 'Smash Burger', price: 13.49, cat: 'burger', badge: 'popular', rating: '4.7', meta: 'Double smash, American cheese', desc: 'Two 3oz beef patties smashed to crispy perfection, American cheese, pickles, onion, and secret sauce on a toasted brioche bun.', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80' },
-            { id: 4, name: 'Garden Buddha Bowl', price: 11.99, cat: 'salad', badge: 'veg', rating: '4.6', meta: 'Quinoa, roasted veg & tahini', desc: 'Warm quinoa base with roasted sweet potato, crispy chickpeas, baby kale, cherry tomatoes, and a creamy tahini lemon dressing.', img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80' },
-            { id: 5, name: 'Creamy Pesto Pasta', price: 13.99, cat: 'pasta', badge: 'veg', rating: '4.7', meta: 'Penne, basil pesto & cream', desc: 'Al dente penne tossed in house-made basil pesto, finished with cream, parmesan, and toasted pine nuts.', img: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&q=80' },
-            { id: 6, name: 'Pepperoni Feast', price: 16.99, cat: 'pizza', badge: 'popular', rating: '4.8', meta: 'Double pepperoni, jalapeño', desc: 'Loaded with double-layer pepperoni, fresh jalapeños, caramelised onion, and three-cheese blend on a garlic butter base.', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80' },
-            { id: 7, name: 'Butter Chicken', price: 15.49, cat: 'indian', badge: 'popular', rating: '4.9', meta: 'Rich tomato-cream curry, basmati', desc: 'Tender chicken thighs marinated in yoghurt and spices, slow-cooked in a velvety tomato-butter-cream sauce. Served with fragrant basmati rice and warm naan.', img: 'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=600&q=80' },
-            { id: 8, name: 'Truffle Fries', price: 7.99, cat: 'salad', badge: 'veg', rating: '4.5', meta: 'Hand-cut, truffle oil & parmesan', desc: 'Golden hand-cut fries tossed in white truffle oil and finished with aged parmesan shavings and fresh chives.', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&q=80' },
-            { id: 9, name: 'Salmon Sashimi', price: 21.99, cat: 'sushi', badge: '', rating: '4.8', meta: '8pc premium Atlantic salmon', desc: 'Eight thick-cut slices of premium Atlantic salmon, served with wasabi, pickled ginger, and house ponzu sauce.', img: 'https://images.unsplash.com/photo-1534482421-64566f976cfa?w=600&q=80' },
-            { id: 10, name: 'Carne Asada Tacos', price: 12.99, cat: 'tacos', badge: 'popular', rating: '4.7', meta: '3pc street tacos, salsa verde', desc: 'Chargrilled carne asada on warm corn tortillas with fresh pico de gallo, crema, cotija cheese, and tangy salsa verde.', img: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=600&q=80' },
-            { id: 11, name: 'Chocolate Lava Cake', price: 8.99, cat: 'dessert', badge: '', rating: '4.9', meta: 'Warm, gooey centre, vanilla ice cream', desc: 'Rich dark chocolate cake with a warm flowing centre, served alongside vanilla bean ice cream and a dusting of cocoa.', img: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80' },
-            { id: 12, name: 'Mango Lassi', price: 4.99, cat: 'drinks', badge: 'veg', rating: '4.6', meta: 'Alphonso mango, yoghurt, rose', desc: 'Thick, chilled blend of Alphonso mango pulp, creamy yoghurt, a hint of rose water, and crushed cardamom. A refreshing classic.', img: 'https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=600&q=80' },
-            { id: 13, name: 'Carbonara', price: 14.49, cat: 'pasta', badge: '', rating: '4.7', meta: 'Guanciale, pecorino, egg yolk', desc: 'Traditional Roman carbonara: spaghetti coated in a silky sauce of egg yolk, aged pecorino romano, guanciale, and cracked black pepper.', img: 'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=600&q=80' },
-            { id: 14, name: 'BBQ Mushroom Burger', price: 12.99, cat: 'burger', badge: 'veg', rating: '4.5', meta: 'Portobello, smoked gouda, slaw', desc: 'Grilled portobello mushroom cap with smoked gouda, crispy onion rings, house slaw, and tangy BBQ sauce on a seeded bun.', img: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600&q=80' },
-            { id: 15, name: 'Tiramisu', price: 7.49, cat: 'dessert', badge: '', rating: '4.8', meta: 'Espresso, mascarpone, cocoa', desc: 'Layers of espresso-soaked ladyfingers and velvety mascarpone cream, dusted generously with fine cocoa powder. Made fresh daily.', img: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=600&q=80' },
-            { id: 16, name: 'Cold Brew Coffee', price: 5.49, cat: 'drinks', badge: 'veg', rating: '4.7', meta: '18-hr steep, milk, light ice', desc: 'Slow-steeped for 18 hours for a smooth, low-acid concentrate. Served over light ice with your choice of oat or whole milk.', img: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80' },
-        ];
-
-        let cart = [];
-        let currentFood = null;
-        let currentQty = 1;
-        let discount = 0;
-        let activeCategory = 'all';
-
-        // ── RENDER MENU ──
-        function renderMenu(cat = 'all') {
-            const grid = document.getElementById('foodGrid');
-            const items = cat === 'all' ? FOODS : FOODS.filter(f => f.cat === cat);
-            grid.innerHTML = items.map(f => `
-    <div class="food-card" onclick="openProduct(${f.id})">
-      <div class="food-img-wrap">
-        <img src="${f.img}" alt="${f.name}" loading="lazy" />
-        ${f.badge ? `<span class="food-badge ${f.badge}">${f.badge === 'veg' ? '🌿 Veg' : f.badge === 'popular' ? '🔥 Popular' : f.badge}</span>` : ''}
+<!-- ═══════════════════════════════════════════════════ LOGIN SCREEN -->
+<div id="login-screen" class="auth-screen">
+  <div class="auth-left">
+    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80" alt="Delicious food" />
+    <div class="auth-left-content">
+      <h2>Great food, <em>delivered fast.</em></h2>
+      <p>Hot meals from the best local restaurants — at your door in under 30 minutes.</p>
+      <div class="auth-badges">
+        <span class="auth-badge">🍕 200+ Restaurants</span>
+        <span class="auth-badge">⚡ 30 min delivery</span>
+        <span class="auth-badge">⭐ 4.9 Rating</span>
       </div>
-      <div class="food-card-body">
-        <h3>${f.name}</h3>
-        <div class="food-meta">${f.meta}</div>
-        <div class="food-footer">
-          <span class="food-price">$${f.price.toFixed(2)}</span>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span class="food-rating">⭐ ${f.rating}</span>
-            <button class="btn-add" onclick="event.stopPropagation();quickAdd(${f.id})" title="Add to cart">+</button>
+    </div>
+  </div>
+  <div class="auth-right">
+    <div class="auth-logo">Zestify</div>
+    <h1 class="auth-title">Welcome back</h1>
+    <p class="auth-subtitle">Sign in to your account to continue</p>
+
+    <div class="social-btns">
+      <button class="social-btn" onclick="socialLogin('Google')">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Google
+      </button>
+      <button class="social-btn" onclick="socialLogin('Facebook')">
+        <svg viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.414c0-3.025 1.791-4.697 4.533-4.697 1.313 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.265h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+        Facebook
+      </button>
+    </div>
+
+    <div class="divider">or sign in with email</div>
+
+    <div id="login-error" class="auth-error">
+      <span>⚠️</span> <span id="login-error-msg">Incorrect email or password. Please try again.</span>
+    </div>
+
+    <form id="login-form" novalidate onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="login-email">Email address</label>
+        <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email" />
+        <div class="field-error" id="login-email-err">Please enter a valid email address.</div>
+      </div>
+      <div class="form-group">
+        <div class="password-row">
+          <label for="login-password">Password</label>
+          <a href="#" class="forgot-link" onclick="showForgotPassword(event)">Forgot password?</a>
+        </div>
+        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
+        <div class="field-error" id="login-pass-err">Password must be at least 6 characters.</div>
+      </div>
+      <button type="submit" class="btn-primary" id="login-btn">Sign in →</button>
+    </form>
+
+    <p class="auth-footer-link">
+      Don't have an account? <a href="#" onclick="showSignup(event)">Sign up free</a>
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ SIGNUP SCREEN -->
+<div id="signup-screen" class="auth-screen hidden">
+  <div class="auth-left">
+    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&q=80" alt="Happy foodies" />
+    <div class="auth-left-content">
+      <h2>Join thousands of <em>happy foodies.</em></h2>
+      <p>Free delivery on your first 3 orders. Sign up today and taste the difference.</p>
+      <div class="auth-badges">
+        <span class="auth-badge">🎁 Free first delivery</span>
+        <span class="auth-badge">🔒 Secure checkout</span>
+      </div>
+    </div>
+  </div>
+  <div class="auth-right">
+    <div class="auth-logo">Zestify</div>
+    <h1 class="auth-title">Create account</h1>
+    <p class="auth-subtitle">It's free and takes under a minute</p>
+
+    <div class="social-btns">
+      <button class="social-btn" onclick="socialLogin('Google')">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Google
+      </button>
+      <button class="social-btn" onclick="socialLogin('Facebook')">
+        <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.414c0-3.025 1.791-4.697 4.533-4.697 1.313 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.265h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+        Facebook
+      </button>
+    </div>
+
+    <div class="divider">or sign up with email</div>
+
+    <div id="signup-error" class="auth-error">
+      <span>⚠️</span> <span id="signup-error-msg">Please fill all fields correctly.</span>
+    </div>
+    <div id="signup-success" class="auth-success">
+      <span>✓</span> Account created! Signing you in…
+    </div>
+
+    <form id="signup-form" novalidate onsubmit="handleSignup(event)">
+      <div class="form-group">
+        <label for="signup-name">Full name</label>
+        <input type="text" id="signup-name" placeholder="Jane Smith" autocomplete="name" />
+        <div class="field-error" id="signup-name-err">Please enter your full name.</div>
+      </div>
+      <div class="form-group">
+        <label for="signup-email">Email address</label>
+        <input type="email" id="signup-email" placeholder="you@example.com" autocomplete="email" />
+        <div class="field-error" id="signup-email-err">Please enter a valid email address.</div>
+      </div>
+      <div class="form-group">
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" placeholder="At least 6 characters" autocomplete="new-password" />
+        <div class="field-error" id="signup-pass-err">Password must be at least 6 characters.</div>
+      </div>
+      <button type="submit" class="btn-primary" id="signup-btn">Create account →</button>
+    </form>
+
+    <p class="auth-footer-link">
+      Already have an account? <a href="#" onclick="showLogin(event)">Sign in</a>
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ MAIN APP -->
+<div id="app" class="hidden">
+
+  <!-- Topbar -->
+  <nav id="topbar">
+    <span class="topbar-logo">Zestify</span>
+    <div class="topbar-nav">
+      <a href="#menu">Menu</a>
+      <a href="#tracking">Track Order</a>
+      <a href="#footer">About</a>
+    </div>
+    <div class="topbar-right">
+      <button id="theme-btn" onclick="toggleDark()" aria-label="Toggle dark mode">🌙</button>
+      <button id="cart-btn" onclick="openCart()">
+        🛒 <span id="cart-count">0</span>
+      </button>
+      <button id="avatar-btn" onclick="signOut()">U</button>
+      <button id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav -->
+  <div id="mobile-nav">
+    <a href="#menu" onclick="closeMobileNav()">🍔 Menu</a>
+    <a href="#tracking" onclick="closeMobileNav()">📦 Track Order</a>
+    <a href="#footer" onclick="closeMobileNav()">ℹ️ About</a>
+    <a href="#" class="sign-out-link" onclick="signOut()">🚪 Sign out</a>
+  </div>
+
+  <!-- Cart overlay + drawer -->
+  <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+  <div id="cart-drawer">
+    <div class="cart-header">
+      <h3>🛒 Your Order</h3>
+      <button class="cart-close" onclick="closeCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <div class="cart-empty" id="cart-empty">Your cart is empty.<br>Add something delicious! 🍕</div>
+    </div>
+    <div class="cart-footer">
+      <div class="coupon-row">
+        <input class="coupon-input" id="coupon-input" placeholder="Promo code" />
+        <button class="coupon-apply" onclick="applyCoupon()">Apply</button>
+      </div>
+      <div class="cart-totals">
+        <div class="cart-row"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+        <div class="cart-row"><span>Delivery</span><span>$2.99</span></div>
+        <div class="cart-row" id="discount-row" style="display:none;color:#16a34a"><span>Discount</span><span id="discount-val">—</span></div>
+        <div class="cart-row total"><span>Total</span><span id="total">$2.99</span></div>
+      </div>
+      <button class="checkout-btn" onclick="placeOrder()">Place Order →</button>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=1600&q=80" alt="Fresh food" />
+    <div class="hero-overlay"></div>
+    <div class="hero-content fade-in">
+      <p class="hero-eyebrow">Over 200 restaurants available now</p>
+      <h1>Hungry? We've got <em>you covered.</em></h1>
+      <p>From local favourites to hidden gems — hot, fresh meals delivered to your door in 30 minutes or less.</p>
+      <div class="hero-btns">
+        <a href="#menu" class="btn-hero btn-hero-primary">Order Now 🍕</a>
+        <a href="#tracking" class="btn-hero btn-hero-ghost">Track Order</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">200+</div><div class="lbl">Restaurants</div></div>
+        <div class="hero-stat"><div class="num">30 min</div><div class="lbl">Avg Delivery</div></div>
+        <div class="hero-stat"><div class="num">4.9★</div><div class="lbl">App Rating</div></div>
+        <div class="hero-stat"><div class="num">50k+</div><div class="lbl">Happy Users</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu -->
+  <section id="menu">
+    <div class="section">
+      <div class="section-eyebrow">✦ Explore</div>
+      <div class="section-header">
+        <h2>What's on the menu</h2>
+        <a href="#">See all →</a>
+      </div>
+      <div class="cat-tabs" id="cat-tabs"></div>
+      <div class="menu-grid" id="menu-grid"></div>
+    </div>
+  </section>
+
+  <!-- Item modal -->
+  <div class="modal-overlay" id="item-modal">
+    <div class="modal" role="dialog" aria-modal="true">
+      <button class="modal-close" onclick="closeItemModal()" style="position:relative;margin-left:auto;display:block">✕</button>
+      <img class="modal-img" id="modal-img" src="" alt="" />
+      <div class="modal-body">
+        <h2 class="modal-title" id="modal-title"></h2>
+        <p class="modal-desc" id="modal-desc"></p>
+        <div class="modal-also">
+          <div class="modal-also-title">You might also like</div>
+          <div class="modal-also-items" id="modal-also"></div>
+        </div>
+        <div class="modal-footer">
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <span class="qty-val" id="modal-qty">1</span>
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
           </div>
+          <button class="modal-add-btn" onclick="addToCart()">Add to order</button>
         </div>
       </div>
     </div>
-  `).join('');
-        }
+  </div>
 
-        function filterCat(cat, el) {
-            activeCategory = cat;
-            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
-            el.classList.add('active');
-            renderMenu(cat);
-        }
+  <!-- Tracking -->
+  <section id="tracking" style="background:#fff">
+    <div class="tracking-inner">
+      <div class="section-eyebrow">📦 Live</div>
+      <h2 style="font-size:clamp(1.4rem,3vw,2rem);font-weight:700;margin-bottom:24px">Track your order</h2>
+      <div class="track-card">
+        <div class="track-header">
+          <h3>Order ID — <strong>#ZST-2024-8842</strong></h3>
+          <span class="live-badge">🟢 Live</span>
+        </div>
+        <div class="track-body">
+          <div class="track-stats">
+            <div class="track-stat"><div class="icon">🚴</div><div class="lbl">Rider</div><div class="val">Rajan K.</div></div>
+            <div class="track-stat"><div class="icon">📍</div><div class="lbl">Distance</div><div class="val">1.2 km away</div></div>
+            <div class="track-stat"><div class="icon">⏱</div><div class="lbl">ETA</div><div class="val">~8 min</div></div>
+            <div class="track-stat"><div class="icon">📞</div><div class="lbl">Support</div><div class="val"><a href="tel:+1800555" style="color:var(--brand)">Call rider</a></div></div>
+          </div>
+          <div class="track-map">
+            <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=60" alt="Map view" />
+          </div>
+          <div class="track-progress">
+            <span class="track-icon-anim">🚴</span>
+            Rider is on the way…
+          </div>
+          <a href="tel:+1800555" class="support-btn">📞 Contact Support</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        // ── PRODUCT MODAL ──
-        function openProduct(id) {
-            const f = FOODS.find(x => x.id === id);
-            if (!f) return;
-            currentFood = f;
-            currentQty = 1;
-            document.getElementById('modalImg').src = f.img;
-            document.getElementById('modalName').textContent = f.name;
-            document.getElementById('modalDesc').textContent = f.desc;
-            document.getElementById('modalQty').textContent = 1;
-            document.getElementById('modalTotal').textContent = `$${f.price.toFixed(2)}`;
-            document.getElementById('productModal').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeProductModal(e) {
-            if (e && e.target !== document.getElementById('productModal')) return;
-            document.getElementById('productModal').classList.remove('open');
-            document.body.style.overflow = '';
-        }
-        function changeQty(d) {
-            currentQty = Math.max(1, currentQty + d);
-            document.getElementById('modalQty').textContent = currentQty;
-            document.getElementById('modalTotal').textContent = `$${(currentFood.price * currentQty).toFixed(2)}`;
-        }
-        function addCurrentToCart() {
-            if (!currentFood) return;
-            addToCart(currentFood, currentQty);
-            document.getElementById('productModal').classList.remove('open');
-            document.body.style.overflow = '';
-        }
-        function quickAdd(id) {
-            const f = FOODS.find(x => x.id === id);
-            if (f) addToCart(f, 1);
-        }
+  <!-- Order placed modal -->
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal" style="padding:48px 28px;text-align:center">
+      <div class="success-icon">🎉</div>
+      <h3>Order Placed!</h3>
+      <p>Your food is being prepared. Track it live above.</p>
+      <div class="confirm-box">
+        ✓ <strong>Order #ZST-2024-8842 confirmed</strong><br>
+        Estimated delivery: 25–35 min
+      </div>
+      <button class="btn-primary" style="max-width:200px;margin:0 auto" onclick="closeSuccessModal()">Got it!</button>
+    </div>
+  </div>
 
-        // ── CART ──
-        function addToCart(food, qty = 1) {
-            const existing = cart.find(c => c.id === food.id);
-            if (existing) existing.qty += qty;
-            else cart.push({ ...food, qty });
-            updateCartUI();
-            toast(`${food.name} added 🎉`);
-        }
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-brand-name">Zestify</div>
+          <p>Hot food, fast delivery, every day. Bringing the best restaurants to your door.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#" onclick="openPage('about',event)">About us</a></li>
+            <li><a href="#" onclick="openPage('privacy',event)">Privacy policy</a></li>
+            <li><a href="#" onclick="openPage('terms',event)">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Zestify Inc. All rights reserved.</span>
+        <span>Made with ❤️ for hungry people</span>
+      </div>
+    </div>
+  </footer>
 
-        function updateCartUI() {
-            const total = cart.reduce((s, c) => s + c.qty, 0);
-            document.getElementById('cartCountNav').textContent = total;
+</div><!-- /app -->
 
-            const items = document.getElementById('cartItems');
-            if (cart.length === 0) {
-                items.innerHTML = '<div class="cart-empty"><span class="icon">🍕</span><p>Your cart is empty.<br>Add something delicious!</p></div>';
-            } else {
-                items.innerHTML = cart.map(c => `
-      <div class="cart-item">
-        <img class="cart-item-img" src="${c.img}" alt="${c.name}" />
-        <div class="cart-item-info">
-          <h4>${c.name}</h4>
-          <p>$${c.price.toFixed(2)} each</p>
-          <div class="cart-item-controls">
-            <button class="cart-qty-btn" onclick="changeCartQty(${c.id},-1)">−</button>
-            <span class="cart-qty-num">${c.qty}</span>
-            <button class="cart-qty-btn" onclick="changeCartQty(${c.id},1)">+</button>
+<!-- ═══════════════════════════════════════════════════ PAGE MODALS -->
+
+<!-- About Us -->
+<div class="page-modal-overlay" id="page-about">
+  <div class="page-modal" role="dialog" aria-modal="true" aria-label="About Us">
+    <div class="page-modal-header">
+      <h2>About Us</h2>
+      <button class="page-modal-close" onclick="closePage('about')">✕</button>
+    </div>
+    <div class="page-modal-body">
+      <span class="page-modal-badge">Our Story</span>
+      <h3>Who We Are</h3>
+      <p>Zestify was founded in 2021 with a simple belief: everyone deserves access to restaurant-quality food, delivered with care. We partner with over 200 local restaurants to bring you the freshest, most delicious meals, right to your door in 30 minutes or less.</p>
+      <p>From family-run street-food kitchens to fine-dining establishments, every restaurant on our platform is vetted for quality, hygiene, and consistency. We're not just a delivery service — we're a community built around the love of great food.</p>
+      <h3>Our Mission</h3>
+      <p>To connect people with the food they love, while supporting local restaurants and building sustainable communities. We believe that a great meal can turn an ordinary day into something memorable.</p>
+      <h3>What Sets Us Apart</h3>
+      <ul>
+        <li><strong>Speed:</strong> Average delivery time of 28 minutes, tracked live end-to-end.</li>
+        <li><strong>Quality:</strong> Every restaurant partner goes through a rigorous on-boarding process.</li>
+        <li><strong>Support:</strong> Real humans available 24/7 — not chatbots.</li>
+        <li><strong>Sustainability:</strong> Eco-friendly packaging mandated across all partner restaurants.</li>
+      </ul>
+      <h3>Our Numbers</h3>
+      <p>We serve 50,000+ happy customers across 12 cities, have partnered with 200+ restaurants, and maintain a 4.9-star rating across more than 80,000 reviews. We're proud of every single one.</p>
+      <h3>Get in Touch</h3>
+      <p>Have questions, partnership inquiries, or just want to say hello? Reach us at <strong>hello@zestify.com</strong> — we read every email.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Privacy Policy -->
+<div class="page-modal-overlay" id="page-privacy">
+  <div class="page-modal" role="dialog" aria-modal="true" aria-label="Privacy Policy">
+    <div class="page-modal-header">
+      <h2>Privacy Policy</h2>
+      <button class="page-modal-close" onclick="closePage('privacy')">✕</button>
+    </div>
+    <div class="page-modal-body">
+      <span class="page-modal-badge">Last updated: January 1, 2025</span>
+      <h3>1. Information We Collect</h3>
+      <p>When you use Zestify, we collect information necessary to provide our services:</p>
+      <ul>
+        <li><strong>Account data:</strong> name, email address, and password (hashed and salted).</li>
+        <li><strong>Order data:</strong> delivery address, order history, and payment method (processed by our certified payment provider — we never store card numbers).</li>
+        <li><strong>Usage data:</strong> device type, browser, IP address, and in-app interaction logs to improve performance and debug issues.</li>
+        <li><strong>Location data:</strong> only when you grant permission, to calculate delivery times and show nearby restaurants.</li>
+      </ul>
+      <h3>2. How We Use Your Information</h3>
+      <p>We use collected data solely to:</p>
+      <ul>
+        <li>Process and deliver your orders.</li>
+        <li>Send order confirmations, receipts, and delivery updates.</li>
+        <li>Improve our platform through aggregate, anonymized analytics.</li>
+        <li>Resolve disputes and enforce our Terms of Service.</li>
+        <li>Comply with applicable laws and regulations.</li>
+      </ul>
+      <h3>3. Data Sharing</h3>
+      <p>We do not sell your personal data. We share information only with:</p>
+      <ul>
+        <li>Restaurant partners — to fulfil your order (name and delivery address only).</li>
+        <li>Delivery riders — your first name and delivery address.</li>
+        <li>Payment processors — under strict data processing agreements.</li>
+        <li>Law enforcement — when legally required.</li>
+      </ul>
+      <h3>4. Data Retention</h3>
+      <p>We retain account data for as long as your account is active. Order history is retained for 3 years for legal and accounting purposes. You may request deletion at any time by contacting <strong>privacy@zestify.com</strong>.</p>
+      <h3>5. Security</h3>
+      <p>We employ industry-standard security measures including TLS encryption in transit, AES-256 at rest, regular penetration testing, and access controls. No system is perfectly secure, but we take every reasonable precaution.</p>
+      <h3>6. Your Rights</h3>
+      <p>You have the right to access, correct, or delete your personal data. You may also object to processing or request a portable copy of your data. To exercise these rights, email <strong>privacy@zestify.com</strong>.</p>
+      <h3>7. Changes to This Policy</h3>
+      <p>We may update this Privacy Policy periodically. When we do, we will notify you via email and update the "Last updated" date above. Your continued use of Zestify after a change constitutes acceptance.</p>
+      <h3>8. Contact</h3>
+      <p>For privacy-related questions, contact our Data Protection Officer at <strong>privacy@zestify.com</strong>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Terms of Service -->
+<div class="page-modal-overlay" id="page-terms">
+  <div class="page-modal" role="dialog" aria-modal="true" aria-label="Terms of Service">
+    <div class="page-modal-header">
+      <h2>Terms of Service</h2>
+      <button class="page-modal-close" onclick="closePage('terms')">✕</button>
+    </div>
+    <div class="page-modal-body">
+      <span class="page-modal-badge">Effective: January 1, 2025</span>
+      <h3>1. Acceptance of Terms</h3>
+      <p>By accessing or using Zestify ("the Service"), you agree to be bound by these Terms of Service. If you do not agree to these terms, do not use the Service.</p>
+      <h3>2. Eligibility</h3>
+      <p>You must be at least 18 years old to use Zestify. By creating an account, you represent that you meet this requirement and that all information you provide is accurate and complete.</p>
+      <h3>3. Account Responsibilities</h3>
+      <ul>
+        <li>You are responsible for maintaining the confidentiality of your account credentials.</li>
+        <li>You are responsible for all activities that occur under your account.</li>
+        <li>You must notify us immediately of any unauthorised use of your account.</li>
+        <li>One account per person; accounts are non-transferable.</li>
+      </ul>
+      <h3>4. Orders and Payments</h3>
+      <p>All orders placed through Zestify are subject to restaurant availability and acceptance. Prices displayed are in USD and inclusive of applicable taxes unless stated otherwise. Payments are processed securely through our certified payment partner. Zestify reserves the right to cancel orders due to pricing errors, fraud suspicion, or restaurant unavailability.</p>
+      <h3>5. Delivery</h3>
+      <p>Delivery times are estimates only and may vary due to traffic, weather, or restaurant preparation times. Zestify is not liable for delays beyond its reasonable control. Ensure someone is available at the delivery address to receive your order.</p>
+      <h3>6. Refunds and Cancellations</h3>
+      <p>Cancellations are accepted within 2 minutes of order placement. After that window, cancellation eligibility depends on restaurant preparation status. Refunds for incomplete, incorrect, or damaged orders are processed within 3–5 business days. Contact <strong>support@zestify.com</strong> for all refund requests.</p>
+      <h3>7. Prohibited Conduct</h3>
+      <ul>
+        <li>Fraudulent orders, chargebacks, or abuse of refund policies.</li>
+        <li>Harassing, threatening, or abusing restaurant staff or delivery riders.</li>
+        <li>Attempting to circumvent platform security or scrape data.</li>
+        <li>Using the Service for any unlawful purpose.</li>
+      </ul>
+      <h3>8. Intellectual Property</h3>
+      <p>All content on Zestify — including the logo, design, text, and software — is owned by Zestify Inc. and protected by copyright and trademark law. You may not reproduce, distribute, or create derivative works without our written permission.</p>
+      <h3>9. Limitation of Liability</h3>
+      <p>To the fullest extent permitted by law, Zestify shall not be liable for indirect, incidental, or consequential damages arising from your use of the Service. Our total liability shall not exceed the amount paid by you in the 30 days preceding the claim.</p>
+      <h3>10. Governing Law</h3>
+      <p>These Terms are governed by the laws of the State of California, USA. Any disputes shall be resolved through binding arbitration in San Francisco, CA, except where prohibited by law.</p>
+      <h3>11. Changes to Terms</h3>
+      <p>We may modify these Terms at any time. Material changes will be communicated by email with 14 days' notice. Continued use after the effective date constitutes acceptance.</p>
+      <h3>12. Contact</h3>
+      <p>For questions about these Terms, contact us at <strong>legal@zestify.com</strong>.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ─── Data ───
+  const MENU = [
+    // Pizza
+    { id:1,  cat:'Pizza',    name:'Margherita Pizza',     price:14.99, img:'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&q=80', badge:'Popular',      desc:'Classic Neapolitan pizza with San Marzano tomatoes, fresh mozzarella, and hand-torn basil.' },
+    { id:11, cat:'Pizza',    name:'Pepperoni Feast',      price:16.49, img:'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600&q=80', badge:'',             desc:'Loaded pepperoni on a rich tomato base with triple mozzarella and crispy crust.' },
+    { id:12, cat:'Pizza',    name:'BBQ Chicken Pizza',    price:15.99, img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80', badge:'New',          desc:'Smoky BBQ sauce, grilled chicken, red onions, and cheddar on a thin golden crust.' },
+    // Burgers
+    { id:3,  cat:'Burgers',  name:'Smash Burger',         price:13.49, img:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80', badge:'',            desc:'Double smash patty, American cheese, pickles, and special sauce in a brioche bun.' },
+    { id:13, cat:'Burgers',  name:'Truffle Mushroom Burger', price:15.49, img:'https://images.unsplash.com/photo-1550317138-10000687a72b?w=600&q=80', badge:'Chef\'s Pick', desc:'Beef patty with sautéed wild mushrooms, truffle mayo, and Swiss cheese on sourdough.' },
+    { id:14, cat:'Burgers',  name:'Crispy Chicken Burger', price:12.99, img:'https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=600&q=80', badge:'',           desc:'Crispy fried chicken thigh with slaw, pickled jalapeños, and sriracha honey glaze.' },
+    // Sushi
+    { id:2,  cat:'Sushi',    name:'Dragon Roll',           price:17.99, img:'https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600&q=80', badge:'Chef\'s Pick', desc:'Tempura prawn, avocado, cucumber topped with tuna and drizzled spicy mayo.' },
+    { id:15, cat:'Sushi',    name:'Rainbow Roll',          price:19.49, img:'https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=600&q=80', badge:'Popular',     desc:'California roll base topped with a rainbow of tuna, salmon, shrimp, and avocado.' },
+    { id:16, cat:'Sushi',    name:'Salmon Nigiri (8 pc)', price:14.99, img:'https://images.unsplash.com/photo-1611143669185-af224c5e3252?w=600&q=80', badge:'',            desc:'Hand-pressed sushi rice topped with premium fresh Atlantic salmon and a touch of wasabi.' },
+    // Pasta
+    { id:5,  cat:'Pasta',    name:'Creamy Fettuccine',     price:13.99, img:'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&q=80', badge:'',            desc:'Fettuccine in a rich parmesan cream sauce with grilled chicken and sun-dried tomatoes.' },
+    { id:17, cat:'Pasta',    name:'Spaghetti Carbonara',   price:14.49, img:'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=600&q=80', badge:'Popular',     desc:'Classic Roman carbonara with guanciale, eggs, pecorino, and black pepper.' },
+    { id:18, cat:'Pasta',    name:'Pesto Rigatoni',        price:13.49, img:'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=600&q=80', badge:'Vegan',       desc:'Rigatoni tossed in fresh basil pesto with cherry tomatoes, pine nuts, and rocket.' },
+    // Healthy
+    { id:4,  cat:'Healthy',  name:'Garden Bowl',           price:11.99, img:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80', badge:'Vegan',         desc:'Quinoa, roasted chickpeas, avocado, cherry tomatoes, and lemon-tahini dressing.' },
+    { id:19, cat:'Healthy',  name:'Acai Power Bowl',       price:12.49, img:'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=600&q=80', badge:'New',         desc:'Organic acai base with granola, sliced banana, blueberries, honey, and chia seeds.' },
+    { id:20, cat:'Healthy',  name:'Grilled Salmon Salad',  price:16.99, img:'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=600&q=80', badge:'',           desc:'Pan-seared salmon over mixed greens, cucumber, edamame, and sesame ginger dressing.' },
+    // Desserts
+    { id:6,  cat:'Desserts', name:'Warm Chocolate Lava',   price:8.99,  img:'https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=600&q=80', badge:'Popular',    desc:'Molten dark chocolate cake with a gooey centre, served with vanilla bean ice cream.' },
+    { id:7,  cat:'Desserts', name:'Mango Cheesecake',      price:7.99,  img:'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=600&q=80', badge:'',           desc:'Creamy New York-style cheesecake with a fresh mango coulis and graham cracker base.' },
+    { id:8,  cat:'Desserts', name:'Tiramisu',              price:8.49,  img:'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=600&q=80', badge:'Chef\'s Pick', desc:'Layers of espresso-soaked ladyfingers and mascarpone cream, dusted with cocoa powder.' },
+    // Drinks
+    { id:9,  cat:'Drinks',   name:'Mango Lassi',           price:5.49,  img:'https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=600&q=80', badge:'Popular',      desc:'Thick, refreshing blend of Alphonso mango, yoghurt, cardamom, and a hint of rose water.' },
+    { id:10, cat:'Drinks',   name:'Iced Matcha Latte',     price:6.49,  img:'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=600&q=80', badge:'New',        desc:'Ceremonial grade matcha whisked with oat milk, lightly sweetened, served over ice.' },
+  ];
+
+  const CATEGORIES = ['All', 'Pizza', 'Burgers', 'Sushi', 'Pasta', 'Healthy', 'Desserts', 'Drinks'];
+  let activeCategory = 'All';
+
+  let cart = [];
+  let discount = 0;
+  let currentItem = null;
+  let currentQty = 1;
+
+  // ─── Auth ───
+  function handleLogin(e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
+    const pass  = document.getElementById('login-password').value;
+    let valid = true;
+
+    // Clear
+    ['login-email','login-password'].forEach(id => {
+      document.getElementById(id).classList.remove('error');
+    });
+    ['login-email-err','login-pass-err'].forEach(id => {
+      document.getElementById(id).classList.remove('show');
+    });
+    document.getElementById('login-error').classList.remove('show');
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      document.getElementById('login-email').classList.add('error');
+      document.getElementById('login-email-err').classList.add('show');
+      valid = false;
+    }
+    if (pass.length < 6) {
+      document.getElementById('login-password').classList.add('error');
+      document.getElementById('login-pass-err').classList.add('show');
+      valid = false;
+    }
+    if (!valid) return;
+
+    const btn = document.getElementById('login-btn');
+    btn.disabled = true;
+    btn.textContent = 'Signing in…';
+
+    setTimeout(() => {
+      // Simulate auth — accept any valid-format credentials
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('app').classList.remove('hidden');
+      document.getElementById('avatar-btn').textContent = email[0].toUpperCase();
+      btn.disabled = false;
+      btn.textContent = 'Sign in →';
+    }, 800);
+  }
+
+  function handleSignup(e) {
+    e.preventDefault();
+    const name  = document.getElementById('signup-name').value.trim();
+    const email = document.getElementById('signup-email').value.trim();
+    const pass  = document.getElementById('signup-password').value;
+    let valid = true;
+
+    ['signup-name','signup-email','signup-password'].forEach(id => {
+      document.getElementById(id).classList.remove('error');
+    });
+    ['signup-name-err','signup-email-err','signup-pass-err'].forEach(id => {
+      document.getElementById(id).classList.remove('show');
+    });
+    document.getElementById('signup-error').classList.remove('show');
+    document.getElementById('signup-success').classList.remove('show');
+
+    if (!name) {
+      document.getElementById('signup-name').classList.add('error');
+      document.getElementById('signup-name-err').classList.add('show');
+      valid = false;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      document.getElementById('signup-email').classList.add('error');
+      document.getElementById('signup-email-err').classList.add('show');
+      valid = false;
+    }
+    if (pass.length < 6) {
+      document.getElementById('signup-password').classList.add('error');
+      document.getElementById('signup-pass-err').classList.add('show');
+      valid = false;
+    }
+    if (!valid) return;
+
+    const btn = document.getElementById('signup-btn');
+    btn.disabled = true;
+    btn.textContent = 'Creating account…';
+
+    setTimeout(() => {
+      document.getElementById('signup-success').classList.add('show');
+      setTimeout(() => {
+        document.getElementById('signup-screen').classList.add('hidden');
+        document.getElementById('app').classList.remove('hidden');
+        document.getElementById('avatar-btn').textContent = name[0].toUpperCase();
+        btn.disabled = false;
+        btn.textContent = 'Create account →';
+      }, 900);
+    }, 800);
+  }
+
+  function socialLogin(provider) {
+    alert(`${provider} login — integrate your OAuth provider here.`);
+  }
+
+  function showSignup(e) { e.preventDefault(); document.getElementById('login-screen').classList.add('hidden'); document.getElementById('signup-screen').classList.remove('hidden'); }
+  function showLogin(e)  { e.preventDefault(); document.getElementById('signup-screen').classList.add('hidden'); document.getElementById('login-screen').classList.remove('hidden'); }
+  function signOut()     { document.getElementById('app').classList.add('hidden'); document.getElementById('login-screen').classList.remove('hidden'); closeMobileNav(); }
+
+  function showForgotPassword(e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
+    if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert(`Password reset link sent to ${email}.`);
+    } else {
+      document.getElementById('login-email').focus();
+      document.getElementById('login-error-msg').textContent = 'Enter your email address above to reset your password.';
+      document.getElementById('login-error').classList.add('show');
+    }
+  }
+
+  // ─── Categories ───
+  function renderCategories() {
+    const tabs = document.getElementById('cat-tabs');
+    tabs.innerHTML = CATEGORIES.map(cat => `
+      <button class="cat-tab ${cat === activeCategory ? 'active' : ''}" onclick="filterCategory('${cat}')">${cat}</button>
+    `).join('');
+  }
+
+  function filterCategory(cat) {
+    activeCategory = cat;
+    renderCategories();
+    renderMenu();
+  }
+
+  // ─── Menu ───
+  function renderMenu() {
+    const grid = document.getElementById('menu-grid');
+    const items = activeCategory === 'All' ? MENU : MENU.filter(m => m.cat === activeCategory);
+    grid.innerHTML = items.map(item => `
+      <div class="menu-card" onclick="openItem(${item.id})">
+        <div class="menu-card-img-wrap">
+          <img class="menu-card-img" src="${item.img}" alt="${item.name}" loading="lazy" />
+          ${item.badge ? `<span class="menu-card-badge">${item.badge}</span>` : ''}
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">${item.name}</div>
+          <div class="menu-card-meta">
+            <span class="menu-card-price">$${item.price.toFixed(2)}</span>
+            <button class="add-btn" onclick="event.stopPropagation();quickAdd(${item.id})">+ Add</button>
           </div>
         </div>
-        <span class="cart-item-price">$${(c.price * c.qty).toFixed(2)}</span>
       </div>
     `).join('');
-            }
-            updateTotals();
-        }
+  }
 
-        function changeCartQty(id, d) {
-            const idx = cart.findIndex(c => c.id === id);
-            if (idx === -1) return;
-            cart[idx].qty += d;
-            if (cart[idx].qty <= 0) cart.splice(idx, 1);
-            updateCartUI();
-        }
+  function quickAdd(id) {
+    const item = MENU.find(m => m.id === id);
+    addItemToCart(item, 1);
+  }
 
-        function updateTotals() {
-            const sub = cart.reduce((s, c) => s + c.price * c.qty, 0);
-            const del = 2.99;
-            const disc = discount;
-            document.getElementById('subtotalVal').textContent = `$${sub.toFixed(2)}`;
-            document.getElementById('discountVal').textContent = disc > 0 ? `-$${disc.toFixed(2)}` : '—';
-            document.getElementById('totalVal').textContent = `$${Math.max(0, sub + del - disc).toFixed(2)}`;
-        }
+  function openItem(id) {
+    currentItem = MENU.find(m => m.id === id);
+    currentQty = 1;
+    document.getElementById('modal-img').src = currentItem.img;
+    document.getElementById('modal-img').alt = currentItem.name;
+    document.getElementById('modal-title').textContent = currentItem.name;
+    document.getElementById('modal-desc').textContent = currentItem.desc;
+    document.getElementById('modal-qty').textContent = 1;
+    const others = MENU.filter(m => m.id !== id).slice(0, 3);
+    document.getElementById('modal-also').innerHTML = others.map(m =>
+      `<div class="also-item" onclick="openItem(${m.id})">${m.name}</div>`
+    ).join('');
+    document.getElementById('item-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
 
-        function applyCoupon() {
-            const code = document.getElementById('couponInput').value.trim().toUpperCase();
-            if (code === 'ZEST10') { discount = 5; toast('Coupon applied! $5 off 🎁'); }
-            else if (code === 'FIRST') { discount = 2.99; toast('Free delivery unlocked! 🎉'); }
-            else toast('Invalid coupon code.', 'error');
-            updateTotals();
-        }
+  function closeItemModal() {
+    document.getElementById('item-modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
 
-        function openCart() {
-            document.getElementById('cartPanel').classList.add('open');
-            document.getElementById('cartOverlay').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeCart() {
-            document.getElementById('cartPanel').classList.remove('open');
-            document.getElementById('cartOverlay').classList.remove('open');
-            document.body.style.overflow = '';
-        }
-        function placeOrder() {
-            if (cart.length === 0) { toast('Add some food first!', 'error'); return; }
-            closeCart();
-            // Populate payment summary
-            const sub = cart.reduce((s, c) => s + c.price * c.qty, 0);
-            const del = 2.99;
-            document.getElementById('paySub').textContent = `$${sub.toFixed(2)}`;
-            document.getElementById('payDisc').textContent = discount > 0 ? `-$${discount.toFixed(2)}` : '—';
-            document.getElementById('payTotal').textContent = `$${Math.max(0, sub + del - discount).toFixed(2)}`;
-            // Reset payment selection
-            selectedPayMethod = null;
-            document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('selected'));
-            document.getElementById('upiPanel').classList.remove('show');
-            document.getElementById('btnPay').disabled = true;
-            document.getElementById('btnPayLabel').textContent = 'Select a payment method';
-            document.getElementById('payOverlay').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeSuccess() {
-            document.getElementById('successModal').classList.remove('open');
-            window.location.hash = '#tracking';
-        }
+  function changeQty(delta) {
+    currentQty = Math.max(1, currentQty + delta);
+    document.getElementById('modal-qty').textContent = currentQty;
+  }
 
-        // ── PAYMENT ──
-        let selectedPayMethod = null;
-        const payLabels = {
-            upi: 'Pay via UPI →',
-            gpay: 'Pay with Google Pay →',
-            cod: 'Place COD Order →',
-        };
-        function selectPayMethod(method) {
-            selectedPayMethod = method;
-            document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('selected'));
-            document.getElementById('pm' + method.charAt(0).toUpperCase() + method.slice(1)).classList.add('selected');
-            // Toggle UPI panel
-            document.getElementById('upiPanel').classList.toggle('show', method === 'upi');
-            // Enable button
-            const btn = document.getElementById('btnPay');
-            btn.disabled = false;
-            document.getElementById('btnPayLabel').textContent = payLabels[method] || 'Confirm Payment →';
-        }
-        function closePayment() {
-            document.getElementById('payOverlay').classList.remove('open');
-            document.body.style.overflow = '';
-        }
-        function confirmPayment() {
-            if (!selectedPayMethod) return;
-            if (selectedPayMethod === 'upi') {
-                const upiId = document.getElementById('upiId').value.trim();
-                if (!upiId || !upiId.includes('@')) {
-                    document.getElementById('upiId').style.borderColor = '#c0392b';
-                    toast('Please enter a valid UPI ID (e.g. name@upi)', 'error');
-                    return;
-                }
-                document.getElementById('upiId').style.borderColor = '';
-            }
-            closePayment();
-            document.getElementById('successModal').classList.add('open');
-            const methodNames = { upi: 'UPI', gpay: 'Google Pay', cod: 'Cash on Delivery' };
-            document.querySelector('.success-info').innerHTML += `
-    <div class="success-info-row"><span>Payment</span><span style="color:var(--green)">✓ ${methodNames[selectedPayMethod]}</span></div>`;
-            cart = [];
-            discount = 0;
-            updateCartUI();
-            selectedPayMethod = null;
-        }
+  function addToCart() {
+    if (!currentItem) return;
+    addItemToCart(currentItem, currentQty);
+    closeItemModal();
+  }
 
-        // ── AUTH ──
-        function openAuth(type) {
-            document.getElementById(type === 'login' ? 'loginOverlay' : 'signupOverlay').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeAuth(type) {
-            document.getElementById(type === 'login' ? 'loginOverlay' : 'signupOverlay').classList.remove('open');
-            document.body.style.overflow = '';
-        }
-        function switchAuth(to) {
-            closeAuth(to === 'login' ? 'signup' : 'login');
-            openAuth(to);
-        }
-        function socialLogin(provider) {
-            closeAuth('login');
-            toast(`Signed in with ${provider} ✓`);
-        }
+  // ─── Cart ───
+  function addItemToCart(item, qty) {
+    const existing = cart.find(c => c.id === item.id);
+    if (existing) { existing.qty += qty; }
+    else { cart.push({ ...item, qty }); }
+    renderCart();
+    openCart();
+  }
 
-        function handleLogin() {
-            const email = document.getElementById('loginEmail');
-            const pass = document.getElementById('loginPassword');
-            const alert = document.getElementById('loginAlert');
-            let valid = true;
-            clearErrors('login');
+  function renderCart() {
+    const container = document.getElementById('cart-items');
+    const empty = document.getElementById('cart-empty');
+    const count = cart.reduce((s, c) => s + c.qty, 0);
+    document.getElementById('cart-count').textContent = count;
 
-            if (!email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-                showError('loginEmailErr', email); valid = false;
-            }
-            if (!pass.value) {
-                showError('loginPassErr', pass); valid = false;
-            }
-            if (!valid) return;
+    if (cart.length === 0) {
+      container.innerHTML = '';
+      container.appendChild(empty);
+      empty.style.display = '';
+      document.getElementById('subtotal').textContent = '$0.00';
+      document.getElementById('total').textContent = '$2.99';
+      document.getElementById('discount-row').style.display = 'none';
+      return;
+    }
 
-            // Demo: accept any valid format
-            if (email.value && pass.value.length >= 1) {
-                closeAuth('login');
-                document.getElementById('userBtn').textContent = email.value[0].toUpperCase();
-                toast('Welcome back! 👋');
-            } else {
-                alert.classList.add('show');
-                document.getElementById('loginAlertMsg').textContent = 'Incorrect email or password.';
-            }
-        }
+    empty.style.display = 'none';
+    container.innerHTML = cart.map(item => `
+      <div class="cart-item">
+        <img class="cart-item-img" src="${item.img}" alt="${item.name}" />
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price">$${(item.price * item.qty).toFixed(2)}</div>
+          <div class="cart-item-qty">
+            <button class="cart-qty-btn" onclick="updateCartQty(${item.id},-1)">−</button>
+            <span class="cart-qty-val">${item.qty}</span>
+            <button class="cart-qty-btn" onclick="updateCartQty(${item.id},1)">+</button>
+          </div>
+        </div>
+        <button class="cart-remove" onclick="removeFromCart(${item.id})">✕</button>
+      </div>
+    `).join('');
+    container.appendChild(empty);
 
-        function handleSignup() {
-            const name = document.getElementById('signupName');
-            const email = document.getElementById('signupEmail');
-            const pass = document.getElementById('signupPassword');
-            let valid = true;
-            clearErrors('signup');
+    const subtotal = cart.reduce((s, c) => s + c.price * c.qty, 0);
+    const total = subtotal + 2.99 - discount;
+    document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+    document.getElementById('total').textContent = `$${Math.max(0, total).toFixed(2)}`;
+    if (discount > 0) {
+      document.getElementById('discount-row').style.display = '';
+      document.getElementById('discount-val').textContent = `-$${discount.toFixed(2)}`;
+    }
+  }
 
-            if (name.value.trim().length < 2) { showError('signupNameErr', name); valid = false; }
-            if (!email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) { showError('signupEmailErr', email); valid = false; }
-            if (pass.value.length < 8) { showError('signupPassErr', pass); valid = false; }
-            if (!valid) return;
+  function updateCartQty(id, delta) {
+    const item = cart.find(c => c.id === id);
+    if (!item) return;
+    item.qty = Math.max(0, item.qty + delta);
+    if (item.qty === 0) cart = cart.filter(c => c.id !== id);
+    renderCart();
+  }
 
-            closeAuth('signup');
-            document.getElementById('userBtn').textContent = name.value[0].toUpperCase();
-            toast('Account created! Welcome to Zestify 🎉');
-        }
+  function removeFromCart(id) {
+    cart = cart.filter(c => c.id !== id);
+    renderCart();
+  }
 
-        function showError(errId, input) {
-            document.getElementById(errId).classList.add('show');
-            input.classList.add('error');
-        }
-        function clearErrors(type) {
-            if (type === 'login') {
-                ['loginEmailErr', 'loginPassErr'].forEach(id => document.getElementById(id).classList.remove('show'));
-                ['loginEmail', 'loginPassword'].forEach(id => document.getElementById(id).classList.remove('error'));
-                document.getElementById('loginAlert').classList.remove('show');
-            } else {
-                ['signupNameErr', 'signupEmailErr', 'signupPassErr'].forEach(id => document.getElementById(id).classList.remove('show'));
-                ['signupName', 'signupEmail', 'signupPassword'].forEach(id => document.getElementById(id).classList.remove('error'));
-                document.getElementById('signupAlert').classList.remove('show');
-            }
-        }
-        function checkPwStrength(pw) {
-            const bar = document.getElementById('pwBar');
-            let str = 0;
-            if (pw.length >= 8) str++;
-            if (pw.match(/[A-Z]/)) str++;
-            if (pw.match(/[0-9]/)) str++;
-            if (pw.match(/[^a-zA-Z0-9]/)) str++;
-            const colors = ['#e53e3e', '#e53e3e', '#ed8936', '#48bb78', '#38a169'];
-            const widths = ['0%', '25%', '50%', '75%', '100%'];
-            bar.style.width = widths[str];
-            bar.style.background = colors[str];
-        }
+  function applyCoupon() {
+    const code = document.getElementById('coupon-input').value.trim().toUpperCase();
+    if (code === 'ZESTIFY10') { discount = 5; alert('✅ Coupon applied — $5 off!'); }
+    else if (code === 'FIRST') { discount = 2.99; alert('✅ Free delivery applied!'); }
+    else { alert('❌ Invalid coupon code.'); }
+    renderCart();
+  }
 
-        // ── PAGE MODALS ──
-        function openPage(name) {
-            document.getElementById(name + 'Modal').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-        function closePage(name) {
-            document.getElementById(name + 'Modal').classList.remove('open');
-            document.body.style.overflow = '';
-        }
-        // Close on overlay click
-        ['aboutModal', 'privacyModal', 'termsModal'].forEach(id => {
-            document.getElementById(id).addEventListener('click', function (e) {
-                if (e.target === this) closePage(id.replace('Modal', ''));
-            });
-        });
+  function openCart() {
+    document.getElementById('cart-drawer').classList.add('open');
+    document.getElementById('cart-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCart() {
+    document.getElementById('cart-drawer').classList.remove('open');
+    document.getElementById('cart-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
 
-        // ── DARK MODE ──
-        const themeBtn = document.getElementById('themeToggle');
-        const savedTheme = localStorage.getItem('zestify-theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-        themeBtn.addEventListener('click', () => {
-            const current = document.documentElement.getAttribute('data-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', next);
-            themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
-            localStorage.setItem('zestify-theme', next);
-        });
+  function placeOrder() {
+    if (cart.length === 0) { alert('Your cart is empty!'); return; }
+    closeCart();
+    document.getElementById('success-modal').classList.add('open');
+    cart = []; discount = 0;
+    renderCart();
+  }
+  function closeSuccessModal() {
+    document.getElementById('success-modal').classList.remove('open');
+  }
 
-        // ── MOBILE MENU ──
-        document.getElementById('hamburger').addEventListener('click', () => {
-            document.getElementById('mobileMenu').classList.toggle('open');
-        });
-        function closeMobileMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
+  // ─── Pages ───
+  function openPage(name, e) {
+    if (e) e.preventDefault();
+    document.getElementById('page-' + name).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePage(name) {
+    document.getElementById('page-' + name).classList.remove('open');
+    document.body.style.overflow = '';
+  }
 
-        // ── CART BUTTON ──
-        document.getElementById('cartBtn').addEventListener('click', openCart);
-        document.getElementById('userBtn').addEventListener('click', () => openAuth('login'));
+  // ─── Nav ───
+  function toggleMobileNav() { document.getElementById('mobile-nav').classList.toggle('open'); }
+  function closeMobileNav()  { document.getElementById('mobile-nav').classList.remove('open'); }
 
-        // ── TOAST ──
-        function toast(msg, type = 'success') {
-            const wrap = document.getElementById('toastWrap');
-            const el = document.createElement('div');
-            el.className = 'toast';
-            el.innerHTML = `<span class="toast-icon">${type === 'error' ? '⚠️' : '✓'}</span>${msg}`;
-            wrap.appendChild(el);
-            setTimeout(() => { el.classList.add('fadeout'); setTimeout(() => el.remove(), 300); }, 3000);
-        }
+  // ─── Dark mode ───
+  function toggleDark() {
+    document.body.classList.toggle('dark');
+    document.getElementById('theme-btn').textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+  }
 
-        // ── INIT ──
-        renderMenu();
-    </script>
+  // ─── Close modals on overlay click ───
+  document.getElementById('item-modal').addEventListener('click', function(e) { if (e.target === this) closeItemModal(); });
+  document.getElementById('success-modal').addEventListener('click', function(e) { if (e.target === this) closeSuccessModal(); });
+  ['about','privacy','terms'].forEach(name => {
+    document.getElementById('page-' + name).addEventListener('click', function(e) {
+      if (e.target === this) closePage(name);
+    });
+  });
+
+  // ─── ESC key ───
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeItemModal(); closeSuccessModal();
+      ['about','privacy','terms'].forEach(closePage);
+      closeCart();
+    }
+  });
+
+  // ─── Init ───
+  renderCategories();
+  renderMenu();
+</script>
 </body>
-
 </html>
