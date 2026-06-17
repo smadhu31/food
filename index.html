@@ -3035,27 +3035,27 @@
                     return;
                 }
                 grid.innerHTML = items.map((f, i) => `
-    <div class="food-card" id="card-${f.id}" style="animation-delay:${i * 0.04}s">
+    <div class="food-card" id="card-₹{f.id}" style="animation-delay:₹{i * 0.04}s">
       <div class="food-card-img-wrap">
-        <img class="food-card-img" src="${f.img}" alt="${f.name}" loading="lazy"/>
-        ${f.badge ? `<span class="food-card-badge">${f.badge}</span>` : ''}
-        <button class="wishlist-btn ${wishlist[f.id] ? 'active' : ''}" onclick="toggleWishlist(${f.id},event)">
-          ${wishlist[f.id] ? '❤️' : '🤍'}
+        <img class="food-card-img" src="₹{f.img}" alt="₹{f.name}" loading="lazy"/>
+        ₹{f.badge ? `<span class="food-card-badge">₹{f.badge}</span>` : ''}
+        <button class="wishlist-btn ₹{wishlist[f.id] ? 'active' : ''}" onclick="toggleWishlist(₹{f.id},event)">
+          ₹{wishlist[f.id] ? '❤️' : '🤍'}
         </button>
       </div>
       <div class="food-card-body">
-        <p class="food-card-title">${f.name}</p>
+        <p class="food-card-title">₹{f.name}</p>
         <div class="food-card-meta">
-          <span class="food-price">₹${f.price.toFixed(2)}</span>
-          <span class="food-time">⏱ ${f.time}</span>
+          <span class="food-price">₹₹{f.price.toFixed(2)}</span>
+          <span class="food-time">⏱ ₹{f.time}</span>
         </div>
-        <p class="food-rating">⭐ ${f.rating}</p>
-        ${cart[f.id] ? `
+        <p class="food-rating">⭐ ₹{f.rating}</p>
+        ₹{cart[f.id] ? `
         <div class="qty-ctrl">
-          <button class="qty-btn" onclick="changeQty(${f.id},-1)">−</button>
-          <span style="font-weight:800;font-size:.92rem;min-width:18px;text-align:center">${cart[f.id]}</span>
-          <button class="qty-btn" onclick="changeQty(${f.id},1)">+</button>
-        </div>`: `<button class="add-btn" onclick="addToCart(${f.id})">Add to cart +</button>`}
+          <button class="qty-btn" onclick="changeQty(₹{f.id},-1)">−</button>
+          <span style="font-weight:800;font-size:.92rem;min-width:18px;text-align:center">₹{cart[f.id]}</span>
+          <button class="qty-btn" onclick="changeQty(₹{f.id},1)">+</button>
+        </div>`: `<button class="add-btn" onclick="addToCart(₹{f.id})">Add to cart +</button>`}
       </div>
     </div>
   `).join('');
@@ -3104,17 +3104,17 @@
                     const f = FOODS.find(x => x.id == id);
                     const line = f.price * cart[id]; subtotal += line;
                     return `<div class="cart-item">
-      <img class="cart-item-img" src="${f.img}" alt="${f.name}"/>
+      <img class="cart-item-img" src="₹{f.img}" alt="₹{f.name}"/>
       <div class="cart-item-info">
-        <strong>${f.name}</strong>
-        <em>${f.cat === 'juice' ? '🥤 Juice' : ''}  $${f.price.toFixed(2)} each</em>
+        <strong>₹{f.name}</strong>
+        <em>₹{f.cat === 'juice' ? '🥤 Juice' : ''}  ₹₹{f.price.toFixed(2)} each</em>
       </div>
       <div class="qty-ctrl">
-        <button class="qty-btn" onclick="changeQty(${id},-1)">−</button>
-        <span style="font-weight:800">${cart[id]}</span>
-        <button class="qty-btn" onclick="changeQty(${id},1)">+</button>
+        <button class="qty-btn" onclick="changeQty(₹{id},-1)">−</button>
+        <span style="font-weight:800">₹{cart[id]}</span>
+        <button class="qty-btn" onclick="changeQty(₹{id},1)">+</button>
       </div>
-      <span style="font-weight:800;font-size:.88rem;min-width:46px;text-align:right">$${line.toFixed(2)}</span>
+      <span style="font-weight:800;font-size:.88rem;min-width:46px;text-align:right">₹₹{line.toFixed(2)}</span>
     </div>`;
                 }).join('');
                 setCartTotals(subtotal);
@@ -3124,13 +3124,13 @@
                 const delivery = 2.99;
                 const discAmt = discount ? sub * discount : 0;
                 const total = Math.max(delivery, sub + delivery - discAmt);
-                document.getElementById('cartSubtotal').textContent = '$' + sub.toFixed(2);
-                document.getElementById('cartTotal').textContent = '$' + total.toFixed(2);
-                document.getElementById('modalTotal').textContent = '$' + total.toFixed(2);
+                document.getElementById('cartSubtotal').textContent = '₹' + sub.toFixed(2);
+                document.getElementById('cartTotal').textContent = '₹' + total.toFixed(2);
+                document.getElementById('modalTotal').textContent = '₹' + total.toFixed(2);
                 const dRow = document.getElementById('discountRow');
                 if (discount && discAmt > 0) {
                     dRow.style.display = 'flex';
-                    document.getElementById('discountAmt').textContent = '-$' + discAmt.toFixed(2);
+                    document.getElementById('discountAmt').textContent = '-₹' + discAmt.toFixed(2);
                 } else dRow.style.display = 'none';
             }
 
@@ -3229,9 +3229,9 @@
                 body.innerHTML = keys.map(id => {
                     const f = FOODS.find(x => x.id == id);
                     return `<div class="wishlist-item">
-      <img src="${f.img}" alt="${f.name}"/>
-      <div class="wishlist-item-info"><strong>${f.name}</strong><span>$${f.price.toFixed(2)}</span></div>
-      <button class="wishlist-add" onclick="addToCart(${f.id})">Add +</button>
+      <img src="₹{f.img}" alt="₹{f.name}"/>
+      <div class="wishlist-item-info"><strong>₹{f.name}</strong><span>₹₹{f.price.toFixed(2)}</span></div>
+      <button class="wishlist-add" onclick="addToCart(₹{f.id})">Add +</button>
     </div>`;
                 }).join('');
             }
